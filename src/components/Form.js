@@ -415,7 +415,7 @@ export default class Form extends Component{
         return (<h1 className="text-center" 
         style={{
             fontFamily: 'Google Sans,Roboto,Arial,sans-serif'
-        }} >Attom_app</h1>);
+        }} >Attom</h1>);
     }
 
 
@@ -688,7 +688,7 @@ export default class Form extends Component{
                                                     // marginRight: '53%'
                                                 }}>Enter product category:</label>
                                                 </div>
-                                                <input autoComplete="off" placeholder="Enter keywords separated by ','" name="category" className="form-control" 
+                                                <input autoComplete="off" placeholder="tiles/gifts" name="category" className="form-control" 
                                                     value={this.state.category} onChange={this.changeCategoryHandler}/>
                                                 
                                             </div>
