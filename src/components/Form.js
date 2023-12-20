@@ -5,7 +5,7 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.1.34:5000/";
 
 
 
@@ -103,26 +103,27 @@ export default class Form extends Component{
 
 
     filter = (p) =>{
-        this.state({loadin: true});
-
+        
+        this.setState({loading: true});
+        p.preventDefault();
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
             
-        p.preventDefault();
-
+        
+        
         this.createProduct(product).then((response)=>{
             console.log(response.data)
         });
 
-        this.state({loadin: false});
+        this.setState({loading: false});
 
         
     }
 
     
     updateGeneralInfo = (p) =>{
-        this.setState({loading: true});
+        
         p.preventDefault();
         // console.log(this.state.targetArea);
         // console.log(this.state.locality);
