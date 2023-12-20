@@ -5,7 +5,7 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.1.34:5000/";
 
 
 
@@ -111,7 +111,9 @@ export default class Form extends Component{
             
         p.preventDefault();
 
-        this.createProduct(product);
+        this.createProduct(product).then((response)=>{
+            console.log(response.data)
+        });
         
     }
 
@@ -119,9 +121,9 @@ export default class Form extends Component{
     updateGeneralInfo = (p) =>{
         this.setState({loading: true});
         p.preventDefault();
-        console.log(this.state.targetArea);
-        console.log(this.state.locality);
-        console.log(this.state.targetAudienceLocation);
+        // console.log(this.state.targetArea);
+        // console.log(this.state.locality);
+        // console.log(this.state.targetAudienceLocation);
 
         let preForm = document.getElementById("second-form");
         preForm.style.display = 'block';
@@ -133,11 +135,11 @@ export default class Form extends Component{
     updateProductInfo = (p) =>{
         this.setState({loading: true});
         p.preventDefault();
-        console.log(this.state.name);
-        console.log(this.state.productKeywords);
-        console.log(this.state.category);
-        console.log(this.state.landingPage);
-        console.log(this.state.startingPrice);
+        // console.log(this.state.name);
+        // console.log(this.state.productKeywords);
+        // console.log(this.state.category);
+        // console.log(this.state.landingPage);
+        // console.log(this.state.startingPrice);
 
         
 
@@ -157,14 +159,14 @@ export default class Form extends Component{
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
-        console.log('product => ' + JSON.stringify(product));
+        // console.log('product => ' + JSON.stringify(product));
             
        
 
         this.createProduct(product).then((response)=>{
             // return;
-            console.log(response.data['message'][0]);
-            console.log(response.data);
+            // console.log(response.data['message'][0]);
+            // console.log(response.data);
             this.setState({loading: false});
             document.getElementById("second-form").remove();
 
@@ -275,7 +277,7 @@ export default class Form extends Component{
 
 
             // this.setState({price: d});
-            console.log("this is price " ,this.state.price, typeof(this.state.price));
+            // console.log("this is price " ,this.state.price, typeof(this.state.price));
             let checkboxes = document.querySelectorAll('.checkbox');
             let that = this;
             // console.log(this);
@@ -287,7 +289,7 @@ export default class Form extends Component{
                     if(this.checked == true )
                     {   
                         // this.checked = false;
-                        console.log(this.value);
+                        // console.log(this.value);
                         this.style.backgroundColor = 'white';
                         this.style.color = 'black';
                         this.style.boxShadow = 'rgb(170, 170, 170) -5px 5px 0px';
@@ -318,11 +320,11 @@ export default class Form extends Component{
                         that.setState({price: price})
                         
 
-                        console.log("you unchecked the checkbox");
+                        // console.log("you unchecked the checkbox");
 
                     }
 
-                    console.log(that.state.price);
+                    // console.log(that.state.price);
 
                 })
             }
