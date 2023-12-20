@@ -103,7 +103,7 @@ export default class Form extends Component{
 
 
     filter = (p) =>{
-        // this.state({loadin: true});
+        this.state({loadin: true});
 
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
@@ -114,6 +114,9 @@ export default class Form extends Component{
         this.createProduct(product).then((response)=>{
             console.log(response.data)
         });
+
+        this.state({loadin: false});
+
         
     }
 
