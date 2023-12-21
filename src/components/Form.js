@@ -5,8 +5,8 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-const REST_API_URL="http://192.168.1.36:5000/";
-// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+// const REST_API_URL="http://192.168.1.36:5000/";
+const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
