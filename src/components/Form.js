@@ -5,8 +5,8 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-// const REST_API_URL="http://192.168.1.34:5000/";
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.1.36:5000/";
+// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
@@ -175,43 +175,43 @@ export default class Form extends Component{
             this.setState({loading: false});
             document.getElementById("second-form").remove();
 
-            let occasions = document.getElementById("occasions");
-            let occasionHTML = '';
-            for(let x of response.data['message'][0])
-            {  
-                let price = this.state.price;
-                price[x] = 1;
-                this.setState({price: price});
-                let ocElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox' checked  autocomplete = 'off' id = 'oc" + x + "'/> \n  <label value = '" + x + "' class = ' checkbox btn btn-primary labels' for = 'oc" + x+ "'>" + x + "</label> \n";
-                occasionHTML = occasionHTML + ocElement;
-            }
-            occasions.innerHTML = occasionHTML;
+            // let occasions = document.getElementById("occasions");
+            // let occasionHTML = '';
+            // for(let x of response.data['message'][0])
+            // {  
+            //     let price = this.state.price;
+            //     price[x] = 1;
+            //     this.setState({price: price});
+            //     let ocElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox' checked  autocomplete = 'off' id = 'oc" + x + "'/> \n  <label value = '" + x + "' class = ' checkbox btn btn-primary labels' for = 'oc" + x+ "'>" + x + "</label> \n";
+            //     occasionHTML = occasionHTML + ocElement;
+            // }
+            // occasions.innerHTML = occasionHTML;
 
 
-            let relations = document.getElementById("relations");
-            let relationsHTML = '';
-            for(let x of response.data['message'][1])
+            let applications = document.getElementById("applications");
+            let applicationsHTML = '';
+            for(let x of response.data['message'][5])
             {  
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
                 let reElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x + "</label> \n";
-                relationsHTML = relationsHTML + reElement;
+                applicationsHTML = applicationsHTML + reElement;
             }
-            relations.innerHTML = relationsHTML;
+            applications.innerHTML = applicationsHTML;
 
             
-            let productTypes = document.getElementById("productType");
-            let productTypesHTML = '';
-            for(let x of response.data['message'][2])
+            let materialTypes = document.getElementById("materialType");
+            let materialTypesHTML = '';
+            for(let x of response.data['message'][1])
             {  
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
                 let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
-                productTypesHTML = productTypesHTML + prElement;
+                materialTypesHTML = materialTypesHTML + prElement;
             }
-            productTypes.innerHTML = productTypesHTML;
+            materialTypes.innerHTML = materialTypesHTML;
 
 
 
@@ -243,17 +243,17 @@ export default class Form extends Component{
 
             
 
-            let places = document.getElementById("places");
-            let placesHTML = '';
-            for(let x of response.data['message'][5])
+            let productType = document.getElementById("productType");
+            let productTypeHTML = '';
+            for(let x of response.data['message'][2])
             {  
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
                 let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
-                placesHTML = placesHTML + plElement;
+                productTypeHTML = productTypeHTML + plElement;
             }
-            places.innerHTML = placesHTML;
+            productType.innerHTML = productTypeHTML;
 
 
 
@@ -269,6 +269,7 @@ export default class Form extends Component{
                 companiesHTML = companiesHTML + coElement;
             }
             companies.innerHTML = companiesHTML;
+            companies.style.display = 'none';
 
 
             // let extras = document.getElementById("extras");
@@ -849,7 +850,7 @@ export default class Form extends Component{
                                                     // marginRight: '70px'
                                                 }}>Identifier Words:</label>
                                                 </div>
-                                                <input autoComplete="off" placeholder="Enter key word(s) related to product USP" name="identifierWords" className="form-control" 
+                                                <input autoComplete="off" placeholder="Enter words separated by '," name="identifierWords" className="form-control" 
                                                     value={this.state.identifierWords} onChange={this.changeIdentifierWordHandler}/>
                                             </div>
                                             <div className = "form-group" style={{
@@ -1009,7 +1010,8 @@ export default class Form extends Component{
                                             <div className = "form-group" style={{
                                                 marginBottom: '3.0rem'
                                             }}>
-                                                <div style={{
+                                            
+                                                {/*<div style={{
                                                     display: 'flex',
                                                     justifyContent: 'left'
                                                 }}>
@@ -1024,7 +1026,7 @@ export default class Form extends Component{
                                                     gap: '12px',
                                                     justifyContent: 'left'
                                                 }}>
-                                                </div>
+                                            </div>*/}
 
                                                 
                                                 <div style={{
@@ -1033,9 +1035,9 @@ export default class Form extends Component{
                                                 }}>
                                                 <label style={{
                                                     // marginRight: '36%'
-                                                }} >Filter out the relationships your product is relevent for: </label>
+                                                }} >Your product is relevent for: </label>
                                                 </div>
-                                                <div id="relations" style={{
+                                                <div id="applications" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
                                                     flexWrap: 'wrap',
@@ -1054,9 +1056,9 @@ export default class Form extends Component{
                                                 }}>
                                                 <label style={{
                                                     // marginRight: '55%'
-                                                }} >Select the product type that you offer: </label>
+                                                }} >Select the material type that you offer: </label>
                                                 </div>
-                                                <div id="productType" style={{
+                                                <div id="materialType" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
                                                     flexWrap: 'wrap',
@@ -1107,9 +1109,9 @@ export default class Form extends Component{
                                                 }}>
                                                 <label style={{
                                                     // marginRight: '44%'
-                                                }} >Select the places of application of your product: </label>
+                                                }} >Select the related products that you offer: </label>
                                                 </div>
-                                                <div id="places" style={{
+                                                <div id="productType" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
                                                     flexWrap: 'wrap',
@@ -1122,10 +1124,11 @@ export default class Form extends Component{
                                                 <div style={{
                                                     display: 'flex',
                                                     justifyContent: 'left'
+
                                                 }}>
                                                 <label style={{
                                                     // marginRight: '4%'
-                                                }} >Select the companies you provide the products of: </label>
+                                                }} ></label>
                                                 </div>
                                                 <div id="companies" style={{
                                                     display: 'flex',
