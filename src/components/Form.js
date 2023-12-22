@@ -115,9 +115,10 @@ export default class Form extends Component{
         
         this.createProduct(product).then((response)=>{
             console.log(response.data)
+            this.setState({loading: false});
         });
 
-        this.setState({loading: false});
+        
 
         
     }
@@ -170,6 +171,12 @@ export default class Form extends Component{
             temp['uspKeyWords'] = this.state.uspKeyWords;
             au[this.state.uspId] = temp;
             this.state.uspId++;
+            this.setState({productUsp: ''});
+            this.setState({identifierWords: ''});
+            this.setState({uspKeyWords: ''});
+            this.setState({allUsp: au});
+
+            console.log(this.state.allUsp);
         }
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
@@ -939,7 +946,7 @@ export default class Form extends Component{
                                                     marginLeft: '22px', 
                                                     marginRight: '22px'
                                                 }}></FaCircleNotch>}
-                                                {!loading && <span>Add USP</span>}
+                                                {!loading && <span>Add another USP</span>}
                                                 </button>
                                             
 
