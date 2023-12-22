@@ -161,6 +161,16 @@ export default class Form extends Component{
         this.setState({loading: true});
 
         p.preventDefault();
+        if(this.state.productUsp != '' && this.state.identifierWords != '')
+        {
+            let au = this.state.allUsp;
+            let temp = {};
+            temp['usp'] = this.state.productUsp;
+            temp['identifierWords'] = this.state.identifierWords;
+            temp['uspKeyWords'] = this.state.uspKeyWords;
+            au[this.state.uspId] = temp;
+            this.state.uspId++;
+        }
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
