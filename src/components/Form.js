@@ -1034,6 +1034,24 @@ export default class Form extends Component{
                                                     justifyContent: 'left'
                                                 }}>
                                                 <label style={{
+                                                    // marginRight: '44%'
+                                                }} >Select the related products that you offer: </label>
+                                                </div>
+                                                <div id="productType" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                </div>
+
+
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                <label style={{
                                                     // marginRight: '36%'
                                                 }} >Your product is relevent for: </label>
                                                 </div>
@@ -1103,22 +1121,7 @@ export default class Form extends Component{
                                                 </div>
 
 
-                                                <div style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'left'
-                                                }}>
-                                                <label style={{
-                                                    // marginRight: '44%'
-                                                }} >Select the related products that you offer: </label>
-                                                </div>
-                                                <div id="productType" style={{
-                                                    display: 'flex',
-                                                    marginBottom: '40px',
-                                                    flexWrap: 'wrap',
-                                                    gap: '12px',
-                                                    justifyContent: 'left'
-                                                }}>
-                                                </div>
+                                                
 
 
                                                 <div style={{
