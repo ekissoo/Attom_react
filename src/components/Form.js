@@ -107,6 +107,65 @@ export default class Form extends Component{
         
         this.setState({loading: true});
         p.preventDefault();
+
+        
+        let checkboxes = document.querySelectorAll('.checkbox');
+        let that = this;
+        // console.log(this);
+        // console.log(that);
+        for( let checkboxx of checkboxes)
+        {
+            if(checkboxx.nodeName == "INPUT")
+                continue;
+
+            let cId = String(checkboxx.id)
+            let pId = String(checkboxx.id).substring(0,2)
+
+            let pCb = document.getElementById(pId);
+            if(checkboxx.checked == true)
+            {
+                if(cId.length != 3)
+                {
+                    if(pCb.checked == false)
+                    {
+                        let s = String(checkboxx.innerHTML);
+                        // d[s] = 1;
+                        let price = that.state.price;
+                        price[s] = 2
+
+                        that.setState({price: price})
+                    }
+                    else
+                    {
+                        let s = String(checkboxx.innerHTML);
+                        // d[s] = 1;
+                        let price = that.state.price;
+                        price[s] = 3
+
+                        that.setState({price: price})
+                    }
+                }
+
+            }
+            else{
+                if(cId.length != 3)
+                {
+                    let s = String(checkboxx.innerHTML);
+                    // d[s] = 1;
+                    let price = that.state.price;
+                    price[s] = 1
+
+                    that.setState({price: price})   
+                }
+            }
+            
+
+            // console.log(checkboxx.value)
+        }
+
+        console.log(this.state.price)
+
+
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
@@ -114,8 +173,61 @@ export default class Form extends Component{
         
         
         this.createProduct(product).then((response)=>{
+            document.getElementById("post-form").style.display = 'none';
+
+            let filteredProductKeywords = document.getElementById("product-keywrods");
+            let filteredProductKeywordsHTML = ''
+            for(let x of response.data['message'][10][0])
+            {   
+                // let price = this.state.price;
+                // price[x] = 1;
+                // this.setState({price: price});
+                let reElement  = "<label style='text-decoration: none;' >" + x + "</label>";
+                filteredProductKeywordsHTML = filteredProductKeywordsHTML + reElement;
+            }
+            filteredProductKeywords.innerHTML = filteredProductKeywordsHTML;
+
+
+            let filteredUspKeywords = document.getElementById("usp-keywords");
+            let filteredUspKeywordsHTML = '';
+            for(let i = 0;i< this.state.uspId;i++)
+            {
+                console.log("here")
+                
+                let ele = "<div style = 'text-align: left;'><h6>Preferred keywords for " + this.state.allUsp[i]['usp'] + ":</h6>"
+                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+                for(let x of response.data['message'][10][1+i])
+                {   
+                    // let price = this.state.price;
+                    // price[x] = 1;
+                    // this.setState({price: price});
+                    let reElement  = "<div><label>" + x + "</label></div>";
+                    filteredUspKeywordsHTML = filteredUspKeywordsHTML + reElement;
+                }
+                ele = "</div>"
+                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+
+
+            }
+
+            filteredUspKeywords.innerHTML = filteredUspKeywordsHTML;
+
+            let negKeywords = document.getElementById("negative-keywrods");
+            let negKeywordsHTML = '';
+            let ele = "<div style = 'text-align: left;'><h6>Negative Keywords List:</h6>"
+            negKeywordsHTML = negKeywordsHTML + ele;
+            for(let x of response.data['message'][9])
+            {
+                let reElement  = "<div><label>" + x + "</label></div>";
+                negKeywordsHTML = negKeywordsHTML + reElement; 
+            }
+            ele = "</div>"
+            filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+            negKeywords.innerHTML = negKeywordsHTML;
+
             console.log(response.data)
             this.setState({loading: false});
+            document.getElementById("results").style.display = 'block';
         });
 
         
@@ -212,7 +324,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let reElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x + "</label> \n";
+                let reElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label id = 're+" + x + "'class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x + "</label> \n";
                 applicationsHTML = applicationsHTML + reElement;
             }
             applications.innerHTML = applicationsHTML;
@@ -225,7 +337,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
+                let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
                 materialTypesHTML = materialTypesHTML + prElement;
             }
             materialTypes.innerHTML = materialTypesHTML;
@@ -239,7 +351,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let deElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked   autocomplete = 'off' id = 'de" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x + "</label> \n";
+                let deElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked   autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "' class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x + "</label> \n";
                 designsHTML = designsHTML + deElement;
             }
             designs.innerHTML = designsHTML;
@@ -253,7 +365,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let seElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x + "</label> \n";
+                let seElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "' class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x + "</label> \n";
                 servicesHTML = servicesHTML + seElement;
             }
             services.innerHTML = servicesHTML;
@@ -267,7 +379,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
+                let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
                 productTypeHTML = productTypeHTML + plElement;
             }
             productType.innerHTML = productTypeHTML;
@@ -282,7 +394,7 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let coElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'co" + x + "'/> \n  <label class = ' checkbox btn btn-primary labels' for = 'co" + x+ "'>" + x + "</label> \n";
+                let coElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'co" + x + "'/> \n  <label id = 'co+" + x + "' class = ' checkbox btn btn-primary labels' for = 'co" + x+ "'>" + x + "</label> \n";
                 companiesHTML = companiesHTML + coElement;
             }
             companies.innerHTML = companiesHTML;
@@ -301,61 +413,95 @@ export default class Form extends Component{
 
             // this.setState({price: d});
             // console.log("this is price " ,this.state.price, typeof(this.state.price));
+            
             let checkboxes = document.querySelectorAll('.checkbox');
             let that = this;
             // console.log(this);
             // console.log(that);
             for( let checkboxx of checkboxes)
             {
-                // console.log("here")
+                // console.log(checkboxx.value)
                 checkboxx.addEventListener('click', function(){
+                    if(this.nodeName == 'INPUT')
+                        return;
+                    
+                    // console.log(this.id);
+                    let cId = String(this.id)
+                    
+                    let pId = String(this.id).substring(0,2)
+                    console.log("Cid = " + cId)
+                    console.log("pId = " + pId);
+                    let pCb = document.getElementById(pId);
+                    console.log(pCb)
+                    console.log(pCb.checked)
+                    // console.log(cId + " " + pId);
+
                     if(this.checked == true )
                     {   
                         // this.checked = false;
-                        // console.log(this.value);
-                        this.style.backgroundColor = 'white';
-                        this.style.color = 'black';
-                        this.style.boxShadow = 'rgb(170, 170, 170) -5px 5px 0px';
-                        this.checked = false;
+                        if(cId.length == 3)
+                        {
+                            this.checked = false;
+                            this.style.backgroundColor = 'skyblue';
+                            this.style.color = 'black';
+                            this.style.boxShadow = 'rgb(170, 170, 170) -2px 2px 0px';
+                        }
+                        else
+                        {
+                            this.style.backgroundColor = 'white';
+                            this.style.color = 'black';
+                            this.style.boxShadow = 'rgb(170, 170, 170) -5px 5px 0px';
+                            this.checked = false;
+                            let s = String(this.innerHTML);
+                            // d[s] = 1;
+                            let price = that.state.price;
+                            price[s] = 1
+
+                            that.setState({price: price})
+                        }
                         
 
-                        let s = String(this.innerHTML);
-                        // d[s] = 1;
-                        let price = that.state.price;
-                        price[s] = 1
-
-                        that.setState({price: price})
+                        
 
 
                     }
                     else
                     {
-                        this.style.backgroundColor = 'black';
-                        this.style.color = 'white';
-                        this.style.boxShadow = '0px 0px 0px';
-                        this.checked = true;
-                        let s = String(this.innerHTML);
+                        if(cId.length == 3)
+                        {
+                            this.checked = true
+                            this.style.backgroundColor = 'black';
+                            this.style.color = 'white';
+                        }
+                        else
+                        {    
+                            this.style.backgroundColor = 'black';
+                            this.style.color = 'white';
+                            this.style.boxShadow = '0px 0px 0px';
+                            this.checked = true;
+                            let s = String(this.innerHTML);
 
-                        let price = that.state.price;
-                        delete price[s];
+                            let price = that.state.price;
+                            
+                            if(pCb.checked == false)
+                                price[s] = 2;
+                            else
+                                price[s] = 3;
+                            that.setState({price:price})
 
-                        
-                        that.setState({price: price})
-                        
+                            
+                            that.setState({price: price})
+                        }
 
                         // console.log("you unchecked the checkbox");
 
                     }
 
-                    // console.log(that.state.price);
+                    console.log(that.state.price);
 
                 })
             }
-            
-
-
-
-
+            // console.log(this.state.price)
 
             document.getElementById("post-form").style.display = 'block'
 
@@ -1045,15 +1191,29 @@ export default class Form extends Component{
                                                 }}>
                                             </div>*/}
 
-                                                
+                                                {/* <div style={{
+                                                    display: 'felx', 
+                                                    justifyContent: 'space-between'
+                                                }}> */}
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left'
+                                                    justifyContent: 'left',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
                                                 }}>
                                                 <label style={{
-                                                    // marginRight: '44%'
+                                                    marginRight: '10px'
                                                 }} >Select the related products that you offer: </label>
+                                                <input style={{
+                                                    opacity:'0', 
+                                                    position:'absolute', 
+                                                    left:'0px'
+
+
+                                                }}  
+                                                type = 'checkbox' value ='pl' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'pl'/>   <label id= 'pl+' className = ' checkbox btn btn-primary labels2' htmlFor = 'pl'>Make AdGroup</label> 
                                                 </div>
+                                                {/* </div> */}
                                                 <div id="productType" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
@@ -1066,12 +1226,24 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left'
+                                                    justifyContent: 'left',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
                                                 }}>
                                                 <label style={{
-                                                    // marginRight: '36%'
+                                                    marginRight: '10px'
                                                 }} >Your product is relevent for: </label>
+                                                <input style={{
+                                                    opacity:'0', 
+                                                    position:'absolute', 
+                                                    left:'0px'
+
+
+                                                }}  
+                                                type = 'checkbox' value ='re' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 're'/>   <label id= 're+' className = ' checkbox btn btn-primary labels2' htmlFor = 're'>Make AdGroup</label> 
+                                                
                                                 </div>
+
                                                 <div id="applications" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
@@ -1087,11 +1259,22 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left'
+                                                    justifyContent: 'left',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
                                                 }}>
                                                 <label style={{
-                                                    // marginRight: '55%'
+                                                    marginRight: '10px'
                                                 }} >Select the material type that you offer: </label>
+                                                <input style={{
+                                                    opacity:'0', 
+                                                    position:'absolute', 
+                                                    left:'0px'
+
+
+                                                }}  
+                                                type = 'checkbox' value ='pr' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'pr'/>   <label id= 'pr+' className = ' checkbox btn btn-primary labels2' htmlFor = 'pr'>Make AdGroup</label> 
+                                                
                                                 </div>
                                                 <div id="materialType" style={{
                                                     display: 'flex',
@@ -1104,11 +1287,22 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left'
+                                                    justifyContent: 'left',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
                                                 }}>
                                                 <label style={{
-                                                    // marginRight: '49%'
+                                                    marginRight: '10px'
                                                 }} >Select the styles and designs that you offer: </label>
+                                                <input style={{
+                                                    opacity:'0', 
+                                                    position:'absolute', 
+                                                    left:'0px'
+
+
+                                                }}  
+                                                type = 'checkbox' value ='de' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'de'/>   <label id= 'de+' className = ' checkbox btn btn-primary labels2' htmlFor = 'de'>Make AdGroup</label> 
+                                                
                                                 </div>
                                                 <div id="designs" style={{
                                                     display: 'flex',
@@ -1122,11 +1316,22 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left'
+                                                    justifyContent: 'left',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
                                                 }}>
                                                 <label style={{
-                                                    // marginRight: '57%'
+                                                    marginRight: '10px'
                                                 }} >Select the services that you provide: </label>
+                                                <input style={{
+                                                    opacity:'0', 
+                                                    position:'absolute', 
+                                                    left:'0px'
+
+
+                                                }}  
+                                                type = 'checkbox' value ='se' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'se'/>   <label id= 'se+' className = ' checkbox btn btn-primary labels2' htmlFor = 'se'>Make AdGroup</label> 
+                                                
                                                 </div>
                                                 <div id="services" style={{
                                                     display: 'flex',
@@ -1201,6 +1406,157 @@ export default class Form extends Component{
                     </div>
                     
                 </div>
+
+
+                <div style={{
+                    transition: '1s',
+                    display: 'none',
+                    // minWidth: '800px'
+                }} id = "results">
+                    <br></br>
+                    <div className = "container"  style={{
+                        // minWidth: '500px',
+                        
+                        // minHeight: '600px',
+                        
+                        wordWrap: 'break-word',
+                        // marginTop: '100 px'
+                        
+                    }}>
+                            <div className = "row" style={{
+                                // justifyContent: 'center'
+                                borderRadius: '14px'
+                            }
+                            }>
+                                <div className = "card col" style={{
+                                    borderRadius: '14px',
+                                    borderColor: 'lightgray',
+                                    minHeight: '500px',
+                                    display: 'flex',
+                                    boxShadow: '-8px 8px 0px #aaa'
+                                    
+                                }}>
+                                    <div className = "card-body" style={{
+                                        // boxShadow: '0px 0px 8px #ddd'
+                                    }}>
+                                        <form style={{
+                                            marginTop:'2.0rem', 
+                                            // boxShadow: '0px 0px 8px #000'
+                                        }}>
+                                            <div className = "form-group" style={{
+                                                marginBottom: '3.0rem'
+                                            }}>
+                                            
+                                               
+
+                                                
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                <h6>Preferred keywords for {this.state.name}: </h6>
+                                                </div>
+                                                <div id="product-keywrods" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+
+
+                                                </div>
+
+
+                                                
+                                                <div id="usp-keywords" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                </div>
+
+                                                <div id="negative-keywrods" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+
+
+                                                </div>
+                                                
+
+
+                                                
+
+
+
+                                                {/* <label style={{
+                                                    marginRight: '12%'
+                                                }} >Select keywords if they are relevent to your product: </label>
+                                                <div id="extras" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                </div> */}
+
+
+
+                                                
+                                            </div>
+                                            
+                                            <div style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between'
+                                            }}>
+
+
+                                                <button className="btn" id="previous-button3" style={{
+                                                backgroundColor: 'white',
+                                                padding: '0px',
+                                                border: 'balck',
+                                                borderRadius: '12px', 
+                                                color: 'black',
+                                                border: 'none',
+                                                // marginTop: '50px'
+                                            }} onClick={(e)=>{
+                                                e.preventDefault();
+                                                document.getElementById("results").style.display = 'none';
+                                                document.getElementById("post-form").style.display = 'block';
+
+                                            }}
+                                            disabled = {loading}>
+                                                {loading && <FaCircleNotch className="App-logo" style={{
+                                                    marginLeft: '22px', 
+                                                    marginRight: '22px'
+                                                }}></FaCircleNotch>}
+                                                {!loading && <span>{"< "}Previous</span>}
+                                                </button>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+    
+                    </div>
+                    
+                </div>
+ 
+
+
+
+
+
+
+
             </div>
             </div>
             
