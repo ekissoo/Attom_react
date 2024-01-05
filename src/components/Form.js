@@ -5,8 +5,8 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-// const REST_API_URL="http://192.168.1.36:5000/";
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.29.225:5000/";
+// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
@@ -175,43 +175,81 @@ export default class Form extends Component{
         this.createProduct(product).then((response)=>{
             document.getElementById("post-form").style.display = 'none';
 
-            let filteredProductKeywords = document.getElementById("product-keywrods");
-            let filteredProductKeywordsHTML = ''
-            for(let x of response.data['message'][10][0])
+            let results_keywords = document.getElementById("results_keywords");
+            let results_keywordsHTML = ''
+            console.log(response.data)
+            let k = 0
+            console.log("allUsp = ")
+            console.log(this.state.allUsp)
+            for(let x of response.data['message'][10])
             {   
+                let title = '';
+                if(k == 0)
+                    title = this.state.name;
+                else
+                    title = this.state.allUsp[k-1]['usp']
+                k++;
+
+                let ele = "<div><label>Preferred keywords for " + title + ":</label>"
+                results_keywordsHTML = results_keywordsHTML + ele;
+
+                console.log("titile is..." + title)
+                console.log("x is.....")
+                console.log(x)
+                console.log("x type = " + typeof(x))
+                ele = "<div class = 'res'>"
+                results_keywordsHTML = results_keywordsHTML + ele;
+                for(let [key, value] of Object.entries(x))
+                {
+                    console.log("key = "+ key + "\nvalue = " + value)
+                    console.log("key = "+ typeof(key) + "\nvalue = " + typeof(value))
+                    
+                    
+                    ele = "<div class = 'result-box'>";
+                    results_keywordsHTML = results_keywordsHTML + ele;
+                    for(let keyword of value)
+                    {
+                        ele = '<label>' + keyword+ ", " + '</label>'
+                        results_keywordsHTML = results_keywordsHTML + ele;
+                    }
+                    ele = "</div>"
+                    results_keywordsHTML = results_keywordsHTML + ele;
+
+                }
+                ele = "</div>"
+                results_keywordsHTML = results_keywordsHTML + ele;
                 // let price = this.state.price;
                 // price[x] = 1;
                 // this.setState({price: price});
-                let reElement  = "<label style='text-decoration: none;' >" + x + "</label>";
-                filteredProductKeywordsHTML = filteredProductKeywordsHTML + reElement;
-            }
-            filteredProductKeywords.innerHTML = filteredProductKeywordsHTML;
-
-
-            let filteredUspKeywords = document.getElementById("usp-keywords");
-            let filteredUspKeywordsHTML = '';
-            for(let i = 0;i< this.state.uspId;i++)
-            {
-                console.log("here")
                 
-                let ele = "<div style = 'text-align: left;'><h6>Preferred keywords for " + this.state.allUsp[i]['usp'] + ":</h6>"
-                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
-                for(let x of response.data['message'][10][1+i])
-                {   
-                    // let price = this.state.price;
-                    // price[x] = 1;
-                    // this.setState({price: price});
-                    let reElement  = "<div><label>" + x + "</label></div>";
-                    filteredUspKeywordsHTML = filteredUspKeywordsHTML + reElement;
-                }
-                ele = "</div>"
-                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
-
-
             }
+            results_keywords.innerHTML = results_keywordsHTML;
 
-            filteredUspKeywords.innerHTML = filteredUspKeywordsHTML;
 
+            // let filteredUspKeywords = document.getElementById("usp-keywords");
+            // let filteredUspKeywordsHTML = '';
+            // for(let i = 0;i< this.state.uspId;i++)
+            // {
+            //     console.log("here")
+                
+            //     let ele = "<div style = 'text-align: left;'><h6>Preferred keywords for " + this.state.allUsp[i]['usp'] + ":</h6>"
+            //     filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+            //     for(let x of response.data['message'][10][1+i])
+            //     {   
+            //         // let price = this.state.price;
+            //         // price[x] = 1;
+            //         // this.setState({price: price});
+            //         let reElement  = "<div><label>" + x + "</label></div>";
+            //         filteredUspKeywordsHTML = filteredUspKeywordsHTML + reElement;
+            //     }
+            //     ele = "</div>"
+            //     filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+
+
+            // }
+
+            // filteredUspKeywords.innerHTML = filteredUspKeywordsHTML;
+            let filteredUspKeywordsHTML = ''
             let negKeywords = document.getElementById("negative-keywrods");
             let negKeywordsHTML = '';
             let ele = "<div style = 'text-align: left;'><h6>Negative Keywords List:</h6>"
@@ -1411,6 +1449,7 @@ export default class Form extends Component{
                 <div style={{
                     transition: '1s',
                     display: 'none',
+                    textAlign: 'left'
                     // minWidth: '800px'
                 }} id = "results">
                     <br></br>
@@ -1447,36 +1486,7 @@ export default class Form extends Component{
                                                 marginBottom: '3.0rem'
                                             }}>
                                             
-                                               
-
-                                                
-                                                <div style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'left'
-                                                }}>
-                                                <h6>Preferred keywords for {this.state.name}: </h6>
-                                                </div>
-                                                <div id="product-keywrods" style={{
-                                                    display: 'flex',
-                                                    marginBottom: '40px',
-                                                    flexWrap: 'wrap',
-                                                    gap: '12px',
-                                                    justifyContent: 'left'
-                                                }}>
-
-
-                                                </div>
-
-
-                                                
-                                                <div id="usp-keywords" style={{
-                                                    display: 'flex',
-                                                    marginBottom: '40px',
-                                                    flexWrap: 'wrap',
-                                                    gap: '12px',
-                                                    justifyContent: 'left'
-                                                }}>
-                                                </div>
+                                                <div id = "results_keywords"></div>
 
                                                 <div id="negative-keywrods" style={{
                                                     display: 'flex',
