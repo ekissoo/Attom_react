@@ -5,8 +5,8 @@ import ProductService from "../service/FormService";
 import {FaCircleNotch} from 'react-icons/fa'
 import './Form.css';
 
-const REST_API_URL="http://192.168.29.225:5000/";
-// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+// const REST_API_URL="http://192.168.29.225:5000/";
+const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
@@ -204,7 +204,7 @@ export default class Form extends Component{
                     console.log("key = "+ key + "\nvalue = " + value)
                     console.log("key = "+ typeof(key) + "\nvalue = " + typeof(value))
                     
-                    
+
                     ele = "<div class = 'result-box'>";
                     results_keywordsHTML = results_keywordsHTML + ele;
                     for(let keyword of value)
