@@ -2,10 +2,12 @@ import React,{Component} from "react";
 import axios from "axios";
 import { useState } from "react";
 import ProductService from "../service/FormService";
-import {FaCircleNotch} from 'react-icons/fa'
+import {FaCircleNotch, FaXMark} from 'react-icons/fa'
 import './Form.css';
-
-// const REST_API_URL="http://192.168.29.225:5000/";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import CloseButton from 'react-bootstrap/CloseButton';
+// const REST_API_URL="http://192.168.1.41:5000/";
 const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
@@ -117,6 +119,7 @@ export default class Form extends Component{
         {
             if(checkboxx.nodeName == "INPUT")
                 continue;
+            
 
             let cId = String(checkboxx.id)
             let pId = String(checkboxx.id).substring(0,2)
@@ -126,7 +129,16 @@ export default class Form extends Component{
             {
                 if(cId.length != 3)
                 {
-                    if(pCb.checked == false)
+                    let x = String(checkboxx.innerHTML);
+                    let p = that.state.price;
+                    if(p[x] == 4)
+                    {
+                        delete p.x;
+                        that.setState({price: p})
+
+                    }
+
+                    else if(pCb.checked == false)
                     {
                         let s = String(checkboxx.innerHTML);
                         // d[s] = 1;
@@ -190,7 +202,7 @@ export default class Form extends Component{
                     title = this.state.allUsp[k-1]['usp']
                 k++;
 
-                let ele = "<div><label>Preferred keywords for " + title + ":</label>"
+                let ele = "<div><h6>Preferred keywords for " + title + ":</h6>"
                 results_keywordsHTML = results_keywordsHTML + ele;
 
                 console.log("titile is..." + title)
@@ -251,21 +263,29 @@ export default class Form extends Component{
             // filteredUspKeywords.innerHTML = filteredUspKeywordsHTML;
             let filteredUspKeywordsHTML = ''
             let negKeywords = document.getElementById("negative-keywrods");
-            let negKeywordsHTML = '';
-            let ele = "<div style = 'text-align: left;'><h6>Negative Keywords List:</h6>"
-            negKeywordsHTML = negKeywordsHTML + ele;
-            for(let x of response.data['message'][9])
+            let l = document.getElementById("makeNwordList")
+            console.log('checked =' + l.checked)
+            if(l.checked)
             {
-                let reElement  = "<div><label>" + x + "</label></div>";
-                negKeywordsHTML = negKeywordsHTML + reElement; 
+                let negKeywordsHTML = '';
+                let ele = "<div style = 'text-align: left;'><h6>Negative Keywords:</h6>"
+                negKeywordsHTML = negKeywordsHTML + ele;
+                for(let x of response.data['message'][9])
+                {
+                    let reElement  = "<div><label>" + x + "</label></div>";
+                    negKeywordsHTML = negKeywordsHTML + reElement; 
+                }
+                ele = "</div>"
+                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+                negKeywords.innerHTML = negKeywordsHTML;
+                negKeywords.style.display = 'block'
             }
-            ele = "</div>"
-            filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
-            negKeywords.innerHTML = negKeywordsHTML;
-
+            else
+                negKeywords.style.display = 'none'
             console.log(response.data)
             this.setState({loading: false});
             document.getElementById("results").style.display = 'block';
+            
         });
 
         
@@ -362,7 +382,11 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let reElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label id = 're+" + x + "'class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x + "</label> \n";
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delre' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                // let addButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                console.log(delButton)
+
+                let reElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label id = 're+" + x + "'class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
                 applicationsHTML = applicationsHTML + reElement;
             }
             applications.innerHTML = applicationsHTML;
@@ -375,7 +399,9 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delpr' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let prElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "'class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
                 materialTypesHTML = materialTypesHTML + prElement;
             }
             materialTypes.innerHTML = materialTypesHTML;
@@ -389,7 +415,9 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let deElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked   autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "' class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x + "</label> \n";
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delde' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let deElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "'class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let deElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked   autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "' class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x + "</label> \n";
                 designsHTML = designsHTML + deElement;
             }
             designs.innerHTML = designsHTML;
@@ -403,7 +431,9 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let seElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "' class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x + "</label> \n";
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delse' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let seElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "'class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let seElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "' class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x + "</label> \n";
                 servicesHTML = servicesHTML + seElement;
             }
             services.innerHTML = servicesHTML;
@@ -417,7 +447,9 @@ export default class Form extends Component{
                 let price = this.state.price;
                 price[x] = 1;
                 this.setState({price: price});
-                let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delpl' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let plElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "'class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
                 productTypeHTML = productTypeHTML + plElement;
             }
             productType.innerHTML = productTypeHTML;
@@ -540,6 +572,37 @@ export default class Form extends Component{
                 })
             }
             // console.log(this.state.price)
+            let delButton = document.querySelectorAll(".delButton");
+            
+            for(let db of delButton)
+            {
+                db.addEventListener('click', function(e){
+                    e.preventDefault();
+                    let delId = String(this.id)
+                    let x = String(this.id).substring(5,delId.length)
+                    let pId = delId.substring(3,5);
+                    let price = that.state.price;
+                    
+                    price[x] = 4
+
+                    that.setState({price: price})
+
+                    console.log(that.state.price)
+                    console.log(delId);
+                    console.log(x)
+                    let l = document.getElementById(pId+'+' + x).checked = true;
+                    document.getElementById(pId+'+' + x).style.display = 'none';
+                    document.getElementById(pId+ '+' + x).style.margin = '0px';
+
+                    document.getElementById(pId + '' + x).style.display = 'none';
+                    document.getElementById(pId + '' + x).style.margin = '0px';
+
+
+                    this.style.display = 'none';
+
+                })
+            }
+
 
             document.getElementById("post-form").style.display = 'block'
 
@@ -895,8 +958,30 @@ export default class Form extends Component{
                                                     // marginRight: '53%'
                                                 }}>Enter product category:</label>
                                                 </div>
-                                                <input autoComplete="off" placeholder="tiles/gifts" name="category" className="form-control" 
-                                                    value={this.state.category} onChange={this.changeCategoryHandler}/>
+                                                {/* <input autoComplete="off" placeholder="tiles/gifts" name="category" className="form-control" 
+                                                    value={this.state.category} onChange={this.changeCategoryHandler}/> */}
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                <DropdownButton id="dropdown-basic-button" title= 'Select category' drop ={'down-centered'}>
+                                                    <Dropdown.Item href="#/action-1"><button className = "category-input" style={{
+                                                        border: 'none' ,
+                                                        background: 'none',
+                                                        width: '100%',
+                                                        textAlign: 'left'
+                                                    }}  onClick={(e)=>{
+                                                        e.preventDefault();
+                                                        this.state.category = 'tiles';
+                                                        let b = document.getElementById("dropdown-basic-button");
+                                                        console.log(b)
+                                                        b.title = this.state.category
+                                                        b.innerHTML = "Tiles"
+                                                        console.log(this.state.category);
+                                                    }}
+                                                    >Tiles</button></Dropdown.Item>
+                                                </DropdownButton>
+                                                </div>
                                                 
                                             </div>
                                             <div className = "form-group" style={{
@@ -1436,7 +1521,9 @@ export default class Form extends Component{
                                                 }}></FaCircleNotch>}
                                                 {!loading && <span>Filter</span>}
                                                 </button>
-                                        </form>
+
+                                                <input style={{marginLeft: '5px'}} type = 'checkbox' value ='makeNwordList' defaultChecked autoComplete = 'off' placeholder="make nwrods" id = 'makeNwordList'></input><label>Make negative keywords list</label>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
@@ -1485,19 +1572,28 @@ export default class Form extends Component{
                                             <div className = "form-group" style={{
                                                 marginBottom: '3.0rem'
                                             }}>
-                                            
-                                                <div id = "results_keywords"></div>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: "left"
+                                                }}>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left',
+                                                    width: '400px'
+                                                }} id = "results_keywords"></div>
 
-                                                <div id="negative-keywrods" style={{
+                                                <div className="result-box" id="negative-keywrods" style={{
                                                     display: 'flex',
                                                     marginBottom: '40px',
+                                                    marginLeft: '5px',
                                                     flexWrap: 'wrap',
                                                     gap: '12px',
                                                     justifyContent: 'left'
                                                 }}>
-
+                                                
 
                                                 </div>
+                                            </div>
                                                 
 
 

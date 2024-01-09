@@ -44,10 +44,78 @@
     display: flex;
     justify-content: left;
     flex-wrap: wrap;
+    
 }
 .result-box{
     margin: 5px auto;
     border: 1px solid lightgray;
     padding: 10px;
     border-radius: 14px;
+    margin-left: 0px;
+    margin-right: auto;
+}
+
+.delButtonContainer{
+    /* position: absolute; */
+}
+.delButtonLabel2{
+    color: lightgray;
+    position: absolute;
+    text-size-adjust: auto;
+    top:0px;
+    margin-top: -9px;
+    left: 2px;
+    height: 10px;
+    width: 30px;
+}
+
+.delButton{
+    transition: 0.4s;
+    color: rgb(36, 36, 36) ;
+    position: absolute;
+    margin-top: -5px;
+    margin-right: -5px;
+    /* background-color: rgb(128, 198, 238); */
+    /* position: relative; */
+    background-color: rgb(255, 255, 255);
+
+    border-color: lightgray;
+    border-radius: 4px;
+    border-color: rgb(207, 202, 202);
+    box-shadow: none;
+    border: none;
+    border: 1px solid lightgray;
+    
+    /* box-shadow: rgb(170, 170, 170) -2px 2px 0px; */
+    width: 12px;
+    height: 12px;
+    padding: 0px 0px 0px 0px;
+    text-align: start;
+    /* margin: -5px 15px 0px 0px; */
+    top: 0;
+    right: 0;
+
+}
+.delButton:hover{
+    background-color: red;
+    transform: scale(1.8);
+}
+.delButtonLabel{
+    padding: 2px;
+    margin: 0px;
+    width: 12px;
+    height: 12px;
+    color: black;
+}
+#dropdown-basic-button{
+    background-color: white;
+    color: rgb(63, 63, 63);
+    border-color: #ced4da;
+    width: 100%;
+}
+.category-input:active, .category-input:focus, .category-input:focus-visible{
+    outline: none;
+    border: none !important;
+    color: white;
+
 }
