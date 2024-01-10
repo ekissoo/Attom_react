@@ -7,8 +7,8 @@ import './Form.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import CloseButton from 'react-bootstrap/CloseButton';
-const REST_API_URL="http://192.168.1.41:5000/";
-// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+// const REST_API_URL="http://192.168.1.41:5000/";
+const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
