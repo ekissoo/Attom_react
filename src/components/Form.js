@@ -7,8 +7,8 @@ import './Form.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import CloseButton from 'react-bootstrap/CloseButton';
-// const REST_API_URL="http://192.168.1.41:5000/";
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.1.41:5000/";
+// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
@@ -219,10 +219,15 @@ export default class Form extends Component{
 
                     ele = "<div class = 'result-box'>";
                     results_keywordsHTML = results_keywordsHTML + ele;
+                    let k = 0;
                     for(let keyword of value)
                     {
-                        ele = '<label>' + keyword+ ", " + '</label>'
+                        if(k == value.length -1)
+                            ele = '<label>' + keyword +"."+ '</label>';
+                        else
+                            ele = '<label>' + keyword+ ",&nbsp" + '</label>'
                         results_keywordsHTML = results_keywordsHTML + ele;
+                        k++;
                     }
                     ele = "</div>"
                     results_keywordsHTML = results_keywordsHTML + ele;
@@ -965,7 +970,15 @@ export default class Form extends Component{
                                                     justifyContent: 'left'
                                                 }}>
                                                 <DropdownButton id="dropdown-basic-button" title= 'Select category' drop ={'down-centered'}>
-                                                    <Dropdown.Item href="#/action-1"><button className = "category-input" style={{
+                                                    <Dropdown.Item onClick={(e)=>{
+                                                        e.preventDefault();
+                                                        this.state.category = 'tiles';
+                                                        let b = document.getElementById("dropdown-basic-button");
+                                                        console.log(b)
+                                                        b.title = this.state.category
+                                                        b.innerHTML = "Tiles"
+                                                        console.log(this.state.category);
+                                                    }} href="#/action-1"><button className = "category-input" style={{
                                                         border: 'none' ,
                                                         background: 'none',
                                                         width: '100%',
@@ -978,7 +991,7 @@ export default class Form extends Component{
                                                         b.title = this.state.category
                                                         b.innerHTML = "Tiles"
                                                         console.log(this.state.category);
-                                                    }}
+                                                    }} 
                                                     >Tiles</button></Dropdown.Item>
                                                 </DropdownButton>
                                                 </div>
