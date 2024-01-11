@@ -7,8 +7,8 @@ import './Form.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import CloseButton from 'react-bootstrap/CloseButton';
-// const REST_API_URL="http://192.168.1.41:5000/";
-const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+const REST_API_URL="http://192.168.1.22:5000/";
+// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
 
 
@@ -41,9 +41,9 @@ export default class Form extends Component{
             productKeywords: '',
             productUsp: '',
             identifierWords: '',
-            uspKeyWords: ''
-
-
+            uspKeyWords: '',
+            all_generated_keywords: [],
+            all_nGrams: []
         }
 
         this.saveOrUpdateProduct=this.saveOrUpdateProduct.bind(this);
@@ -127,7 +127,7 @@ export default class Form extends Component{
             let pCb = document.getElementById(pId);
             if(checkboxx.checked == true)
             {
-                if(cId.length != 3)
+                if(cId.length > 3)
                 {
                     let x = String(checkboxx.innerHTML);
                     let p = that.state.price;
@@ -138,7 +138,7 @@ export default class Form extends Component{
 
                     }
 
-                    else if(pCb.checked == false)
+                    else if(pCb.checked == true)
                     {
                         let s = String(checkboxx.innerHTML);
                         // d[s] = 1;
@@ -160,14 +160,29 @@ export default class Form extends Component{
 
             }
             else{
-                if(cId.length != 3)
+                if(cId.length > 3 )
                 {
                     let s = String(checkboxx.innerHTML);
                     // d[s] = 1;
                     let price = that.state.price;
-                    price[s] = 1
+                    let pNw = pId + "makeNwordList";
+                    console.log("pNw = "+ pNw + " cId=" + cId);
+                    let makeNw = document.getElementById(pId + "makeNwordList")
+                    if(makeNw != null)
+                    {
+                        if( makeNw.checked == true)
+                        {
+                            price[s] = 1
+                            console.log("in")
+                        }
+                        else
+                        {
+                            price[s] = 3;
+                            console.log("out")
+                        }
 
-                    that.setState({price: price})   
+                        that.setState({price: price})   
+                    }
                 }
             }
             
@@ -180,7 +195,7 @@ export default class Form extends Component{
 
         let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
-        landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
+        landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords, all_generated_keywords: this.state.all_generated_keywords, all_nGrams: this.state.all_nGrams};
             
         
         
@@ -363,8 +378,31 @@ export default class Form extends Component{
         this.createProduct(product).then((response)=>{
             // return;
             // console.log(response.data['message'][0]);
-            // console.log(response.data);
+            console.log(response.data);
             this.setState({loading: false});
+            // this.setState({all_generated_keywords: response.data['message'][8]})
+            let o = response.data['message'][8];
+            let temp = this.state.all_generated_keywords
+            for(let i = 0;i < o.length;i++)
+            {
+                temp.push(o[i])
+            }
+            console.log("temp = ", temp)
+            this.setState({all_generated_keywords: temp})
+            console.log("allGen..")
+            console.log(this.state.all_generated_keywords)
+
+            let o2 = response.data['message'][9];
+            let temp2 = this.state.all_nGrams
+            for(let i = 0;i < o2.length;i++)
+            {
+                temp2.push(o2[i])
+            }
+            
+            this.setState({all_nGrams: temp2})
+            console.log("allNG=")
+            console.log(this.state.all_nGrams)
+            // console.log(this.state.all_generated_keywrods)
             document.getElementById("second-form").remove();
 
             // let occasions = document.getElementById("occasions");
@@ -1333,21 +1371,26 @@ export default class Form extends Component{
                                                 }}> */}
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left',
+                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
                                                     marginRight: '10px'
                                                 }} >Select the related products that you offer: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
                                                 <input style={{
-                                                    opacity:'0', 
-                                                    position:'absolute', 
-                                                    left:'0px'
+                                                    
 
 
                                                 }}  
-                                                type = 'checkbox' value ='pl' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'pl'/>   <label id= 'pl+' className = ' checkbox btn btn-primary labels2' htmlFor = 'pl'>Make AdGroup</label> 
+                                                type = 'checkbox' value ='pl' className = 'checkbox '    autoComplete = 'off' id = 'pl'/>   <label id= 'pl+' className = ' checkbox ' htmlFor = 'pl'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='plmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'plmakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
                                                 </div>
                                                 {/* </div> */}
                                                 <div id="productType" style={{
@@ -1362,22 +1405,26 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left',
+                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
                                                     marginRight: '10px'
                                                 }} >Your product is relevent for: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
                                                 <input style={{
-                                                    opacity:'0', 
-                                                    position:'absolute', 
-                                                    left:'0px'
+                                                    
 
 
                                                 }}  
-                                                type = 'checkbox' value ='re' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 're'/>   <label id= 're+' className = ' checkbox btn btn-primary labels2' htmlFor = 're'>Make AdGroup</label> 
-                                                
+                                                type = 'checkbox' value ='re' className = 'checkbox '    autoComplete = 'off' id = 're'/>   <label id= 're+' className = ' checkbox ' htmlFor = 're'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='remakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'remakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
                                                 </div>
 
                                                 <div id="applications" style={{
@@ -1395,22 +1442,26 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left',
+                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
                                                     marginRight: '10px'
                                                 }} >Select the material type that you offer: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
                                                 <input style={{
-                                                    opacity:'0', 
-                                                    position:'absolute', 
-                                                    left:'0px'
+                                                    
 
 
                                                 }}  
-                                                type = 'checkbox' value ='pr' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'pr'/>   <label id= 'pr+' className = ' checkbox btn btn-primary labels2' htmlFor = 'pr'>Make AdGroup</label> 
-                                                
+                                                type = 'checkbox' value ='pr' className = 'checkbox '    autoComplete = 'off' id = 'pr'/>   <label id= 'pr+' className = ' checkbox ' htmlFor = 'pr'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='prmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'prmakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
                                                 </div>
                                                 <div id="materialType" style={{
                                                     display: 'flex',
@@ -1423,22 +1474,26 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left',
+                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
                                                     marginRight: '10px'
                                                 }} >Select the styles and designs that you offer: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
                                                 <input style={{
-                                                    opacity:'0', 
-                                                    position:'absolute', 
-                                                    left:'0px'
+                                                    
 
 
                                                 }}  
-                                                type = 'checkbox' value ='de' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'de'/>   <label id= 'de+' className = ' checkbox btn btn-primary labels2' htmlFor = 'de'>Make AdGroup</label> 
-                                                
+                                                type = 'checkbox' value ='de' className = 'checkbox '    autoComplete = 'off' id = 'de'/>   <label id= 'de+' className = ' checkbox ' htmlFor = 'de'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='demakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'demakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
                                                 </div>
                                                 <div id="designs" style={{
                                                     display: 'flex',
@@ -1452,22 +1507,26 @@ export default class Form extends Component{
 
                                                 <div style={{
                                                     display: 'flex',
-                                                    justifyContent: 'left',
+                                                    justifyContent: 'space-between',
                                                     alignItems: 'center',
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
                                                     marginRight: '10px'
                                                 }} >Select the services that you provide: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
                                                 <input style={{
-                                                    opacity:'0', 
-                                                    position:'absolute', 
-                                                    left:'0px'
+                                                    
 
 
                                                 }}  
-                                                type = 'checkbox' value ='se' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 'se'/>   <label id= 'se+' className = ' checkbox btn btn-primary labels2' htmlFor = 'se'>Make AdGroup</label> 
-                                                
+                                                type = 'checkbox' value ='se' className = 'checkbox '    autoComplete = 'off' id = 'se'/>   <label id= 'se+' className = ' checkbox ' htmlFor = 'se'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='plmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'semakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
                                                 </div>
                                                 <div id="services" style={{
                                                     display: 'flex',
@@ -1535,7 +1594,7 @@ export default class Form extends Component{
                                                 {!loading && <span>Filter</span>}
                                                 </button>
 
-                                                <input style={{marginLeft: '5px'}} type = 'checkbox' value ='makeNwordList' defaultChecked autoComplete = 'off' placeholder="make nwrods" id = 'makeNwordList'></input><label>Make negative keywords list</label>
+                                                <input style={{marginLeft: '5px', display: 'none'}} type = 'checkbox' value ='makeNwordList' defaultChecked autoComplete = 'off' placeholder="make nwrods" id = 'makeNwordList'></input><label style={{display: 'none'}}>Make negative keywords list</label>
                                             </form>
                                     </div>
                                 </div>
