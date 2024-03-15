@@ -10,8 +10,8 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.23:5000/";
-// const REST_API_URL="http://localhost:8080";
-const REST_API_URL="https://ec2-34-208-122-172.us-west-2.compute.amazonaws.com:8080";
+const REST_API_URL="http://localhost:8080";
+// const REST_API_URL="https://ec2-34-208-122-172.us-west-2.compute.amazonaws.com:8080";
 
 // const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
