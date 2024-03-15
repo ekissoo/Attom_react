@@ -7,6 +7,7 @@ import './Form.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import CloseButton from 'react-bootstrap/CloseButton';
+<<<<<<< HEAD
 import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.23:5000/";
@@ -14,6 +15,10 @@ import pluralize, { plural } from "pluralize";
 const REST_API_URL="https://ec2-34-208-122-172.us-west-2.compute.amazonaws.com:8080";
 
 // const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+=======
+// const REST_API_URL="http://192.168.1.22:5000/";
+const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
 
 
@@ -36,8 +41,11 @@ export default class Form extends Component{
             formData: {},
             offline: false,
             online: false,
+<<<<<<< HEAD
             transactional: false,
             educational: false,
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             loading: false ,
             locality: '',
             targetAudienceLocation: '',
@@ -50,10 +58,14 @@ export default class Form extends Component{
             identifierWords: '',
             uspKeyWords: '',
             all_generated_keywords: [],
+<<<<<<< HEAD
             all_nGrams: [],
             all_must_haves: [],
             location_ids:[],
             addAnotherUsp: false
+=======
+            all_nGrams: []
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         }
 
         this.saveOrUpdateProduct=this.saveOrUpdateProduct.bind(this);
@@ -107,8 +119,12 @@ export default class Form extends Component{
     createProduct = (product) =>
     {
         // return 0;
+<<<<<<< HEAD
         let resp = axios.post(REST_API_URL + '/form', product)
         
+=======
+        let resp = axios.post(REST_API_URL + '/form', product);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
         return resp;
     }
@@ -120,6 +136,10 @@ export default class Form extends Component{
         
         this.setState({loading: true});
         p.preventDefault();
+<<<<<<< HEAD
+=======
+
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         
         let checkboxes = document.querySelectorAll('.checkbox');
         let that = this;
@@ -132,6 +152,7 @@ export default class Form extends Component{
             
 
             let cId = String(checkboxx.id)
+<<<<<<< HEAD
             console.log("cId = ", cId);
             let pId = String(checkboxx.id).substring(0,2)
 
@@ -154,27 +175,106 @@ export default class Form extends Component{
             }
             
             
+=======
+            let pId = String(checkboxx.id).substring(0,2)
+
+            let pCb = document.getElementById(pId);
+            if(checkboxx.checked == true)
+            {
+                if(cId.length > 3)
+                {
+                    let x = String(checkboxx.innerHTML);
+                    let p = that.state.price;
+                    if(p[x] == 4)
+                    {
+                        delete p.x;
+                        that.setState({price: p})
+
+                    }
+
+                    else if(pCb.checked == true)
+                    {
+                        let s = String(checkboxx.innerHTML);
+                        // d[s] = 1;
+                        let price = that.state.price;
+                        price[s] = 2
+
+                        that.setState({price: price})
+                    }
+                    else
+                    {
+                        let s = String(checkboxx.innerHTML);
+                        // d[s] = 1;
+                        let price = that.state.price;
+                        price[s] = 3
+
+                        that.setState({price: price})
+                    }
+                }
+
+            }
+            else{
+                if(cId.length > 3 )
+                {
+                    let s = String(checkboxx.innerHTML);
+                    // d[s] = 1;
+                    let price = that.state.price;
+                    let pNw = pId + "makeNwordList";
+                    console.log("pNw = "+ pNw + " cId=" + cId);
+                    let makeNw = document.getElementById(pId + "makeNwordList")
+                    if(makeNw != null)
+                    {
+                        if( makeNw.checked == true)
+                        {
+                            price[s] = 1
+                            console.log("in")
+                        }
+                        else
+                        {
+                            price[s] = 3;
+                            console.log("out")
+                        }
+
+                        that.setState({price: price})   
+                    }
+                }
+            }
+            
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
             // console.log(checkboxx.value)
         }
 
+<<<<<<< HEAD
         // console.log(this.state.price)
 
 
         let product = {name: this.state.name, call: false,  brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage,transactional:this.state.transactional, educational:this.state.educational, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords, all_must_haves: this.state.all_must_haves,all_generated_keywords: this.state.all_generated_keywords,location_ids: this.state.location_ids ,all_must_haves: this.state.all_must_haves,all_nGrams: this.state.all_nGrams};
+=======
+        console.log(this.state.price)
+
+
+        let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
+        offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
+        landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords, all_generated_keywords: this.state.all_generated_keywords, all_nGrams: this.state.all_nGrams};
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             
         
         
         this.createProduct(product).then((response)=>{
+<<<<<<< HEAD
             console.log("response = ", response)
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             document.getElementById("post-form").style.display = 'none';
 
             let results_keywords = document.getElementById("results_keywords");
             let results_keywordsHTML = ''
             console.log(response.data)
             let k = 0
+<<<<<<< HEAD
             // console.log("allUsp = ")
             // console.log(this.state.allUsp)
             for(let x of response.data['message']['all_filtered_keywords'])
@@ -184,6 +284,15 @@ export default class Form extends Component{
                 let title = '';
                 if(k == 0)
                     title = 'your product';
+=======
+            console.log("allUsp = ")
+            console.log(this.state.allUsp)
+            for(let x of response.data['message'][10])
+            {   
+                let title = '';
+                if(k == 0)
+                    title = this.state.name;
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                 else
                     title = this.state.allUsp[k-1]['usp']
                 k++;
@@ -191,6 +300,7 @@ export default class Form extends Component{
                 let ele = "<div><h6>Preferred keywords for " + title + ":</h6>"
                 results_keywordsHTML = results_keywordsHTML + ele;
 
+<<<<<<< HEAD
                 // console.log("titile is..." + title)
                 // console.log("x is.....")
                 // console.log(x)
@@ -202,16 +312,31 @@ export default class Form extends Component{
                 {
                     // console.log("key = "+ key + "\nvalue = " + value)
                     // console.log("key = "+ typeof(key) + "\nvalue = " + typeof(value))
+=======
+                console.log("titile is..." + title)
+                console.log("x is.....")
+                console.log(x)
+                console.log("x type = " + typeof(x))
+                ele = "<div class = 'res'>"
+                results_keywordsHTML = results_keywordsHTML + ele;
+                for(let [key, value] of Object.entries(x))
+                {
+                    console.log("key = "+ key + "\nvalue = " + value)
+                    console.log("key = "+ typeof(key) + "\nvalue = " + typeof(value))
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                     
 
                     ele = "<div class = 'result-box'>";
                     results_keywordsHTML = results_keywordsHTML + ele;
                     let k = 0;
+<<<<<<< HEAD
                     if(key[0] != ['['])
                     {
                         ele = "<h6> Ad-Group for " + key + ":</h6>"
                         results_keywordsHTML = results_keywordsHTML + ele;
                     }
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                     for(let keyword of value)
                     {
                         if(k == value.length -1)
@@ -227,6 +352,12 @@ export default class Form extends Component{
                 }
                 ele = "</div>"
                 results_keywordsHTML = results_keywordsHTML + ele;
+<<<<<<< HEAD
+=======
+                // let price = this.state.price;
+                // price[x] = 1;
+                // this.setState({price: price});
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                 
             }
             results_keywords.innerHTML = results_keywordsHTML;
@@ -258,13 +389,21 @@ export default class Form extends Component{
             let filteredUspKeywordsHTML = ''
             let negKeywords = document.getElementById("negative-keywrods");
             let l = document.getElementById("makeNwordList")
+<<<<<<< HEAD
             // console.log('checked =' + l.checked)
+=======
+            console.log('checked =' + l.checked)
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             if(l.checked)
             {
                 let negKeywordsHTML = '';
                 let ele = "<div style = 'text-align: left;'><h6>Negative Keywords:</h6>"
                 negKeywordsHTML = negKeywordsHTML + ele;
+<<<<<<< HEAD
                 for(let x of response.data['message']['neg_words'])
+=======
+                for(let x of response.data['message'][9])
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                 {
                     let reElement  = "<div><label>" + x + "</label></div>";
                     negKeywordsHTML = negKeywordsHTML + reElement; 
@@ -276,6 +415,7 @@ export default class Form extends Component{
             }
             else
                 negKeywords.style.display = 'none'
+<<<<<<< HEAD
             // console.log(response.data)
             this.setState({loading: false});
             document.getElementById("results").style.display = 'block';
@@ -286,6 +426,12 @@ export default class Form extends Component{
             document.getElementById("error3").style.gridTemplateRows = '1fr';
             
             console.log("Network error")
+=======
+            console.log(response.data)
+            this.setState({loading: false});
+            document.getElementById("results").style.display = 'block';
+            
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         });
 
         
@@ -309,7 +455,11 @@ export default class Form extends Component{
 
 
     updateProductInfo = (p) =>{
+<<<<<<< HEAD
         // this.setState({loading: true});
+=======
+        this.setState({loading: true});
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         p.preventDefault();
         // console.log(this.state.name);
         // console.log(this.state.productKeywords);
@@ -319,6 +469,7 @@ export default class Form extends Component{
 
         
 
+<<<<<<< HEAD
         if(this.state.productKeywords == '')
         {
             let err = document.getElementById("error");
@@ -408,6 +559,12 @@ export default class Form extends Component{
         document.getElementById("error").style.gridTemplateRows = '0fr'
         document.getElementById("productKeywordsInput").style.borderColor = '1px solid #ced4da'
 
+=======
+
+        let uspForm = document.getElementById("usp-form");
+        uspForm.style.display = 'block';
+        document.getElementById("second-form").style.display = 'none';
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
         this.setState({loading: false});
     }
@@ -415,6 +572,7 @@ export default class Form extends Component{
 
     saveOrUpdateProduct = (p) => {
         this.setState({loading: true});
+<<<<<<< HEAD
         
         p.preventDefault();
         if(this.state.productUsp == '' && this.state.uspKeyWords != '')
@@ -532,20 +690,29 @@ export default class Form extends Component{
 
         
         if(this.state.productUsp != '')
+=======
+
+        p.preventDefault();
+        if(this.state.productUsp != '' && this.state.identifierWords != '')
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         {
             let au = this.state.allUsp;
             let temp = {};
             temp['usp'] = this.state.productUsp;
             temp['identifierWords'] = this.state.identifierWords;
             temp['uspKeyWords'] = this.state.uspKeyWords;
+<<<<<<< HEAD
 
             console.log("tmep = ", temp)
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             au[this.state.uspId] = temp;
             this.state.uspId++;
             this.setState({productUsp: ''});
             this.setState({identifierWords: ''});
             this.setState({uspKeyWords: ''});
             this.setState({allUsp: au});
+<<<<<<< HEAD
         }
 
         if(this.state.addAnotherUsp == true)
@@ -570,11 +737,31 @@ export default class Form extends Component{
             this.setState({loading: false});
             // this.setState({all_generated_keywords: response.data['message'][8]})
             let o = response.data['message']['all_generated_keywords'];
+=======
+
+            console.log(this.state.allUsp);
+        }
+        let product = {name: this.state.name, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
+        offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
+        landingPage: this.state.landingPage, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
+        // console.log('product => ' + JSON.stringify(product));
+            
+       
+
+        this.createProduct(product).then((response)=>{
+            // return;
+            // console.log(response.data['message'][0]);
+            console.log(response.data);
+            this.setState({loading: false});
+            // this.setState({all_generated_keywords: response.data['message'][8]})
+            let o = response.data['message'][8];
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             let temp = this.state.all_generated_keywords
             for(let i = 0;i < o.length;i++)
             {
                 temp.push(o[i])
             }
+<<<<<<< HEAD
             this.setState({all_generated_keywords: temp})
             console.log("all_generated_keywords = ", this.state.all_generated_keywords)
 
@@ -812,15 +999,141 @@ export default class Form extends Component{
             // let companies = document.getElementById("companies");
             // let companiesHTML = '';
             // for(let x of response.data['message'][6])
+=======
+            console.log("temp = ", temp)
+            this.setState({all_generated_keywords: temp})
+            console.log("allGen..")
+            console.log(this.state.all_generated_keywords)
+
+            let o2 = response.data['message'][9];
+            let temp2 = this.state.all_nGrams
+            for(let i = 0;i < o2.length;i++)
+            {
+                temp2.push(o2[i])
+            }
+            
+            this.setState({all_nGrams: temp2})
+            console.log("allNG=")
+            console.log(this.state.all_nGrams)
+            // console.log(this.state.all_generated_keywrods)
+            document.getElementById("second-form").remove();
+
+            // let occasions = document.getElementById("occasions");
+            // let occasionHTML = '';
+            // for(let x of response.data['message'][0])
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             // {  
             //     let price = this.state.price;
             //     price[x] = 1;
             //     this.setState({price: price});
+<<<<<<< HEAD
             //     let coElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'co" + x + "'/> \n  <label id = 'co+" + x + "' class = ' checkbox btn btn-primary labels' for = 'co" + x+ "'>" + x + "</label> \n";
             //     companiesHTML = companiesHTML + coElement;
             // }
             // companies.innerHTML = companiesHTML;
             // companies.style.display = 'none';
+=======
+            //     let ocElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox' checked  autocomplete = 'off' id = 'oc" + x + "'/> \n  <label value = '" + x + "' class = ' checkbox btn btn-primary labels' for = 'oc" + x+ "'>" + x + "</label> \n";
+            //     occasionHTML = occasionHTML + ocElement;
+            // }
+            // occasions.innerHTML = occasionHTML;
+
+
+            let applications = document.getElementById("applications");
+            let applicationsHTML = '';
+            for(let x of response.data['message'][5])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delre' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                // let addButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                console.log(delButton)
+
+                let reElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 're" + x + "'/> \n  <label id = 're+" + x + "'class = ' checkbox btn btn-primary labels' for = 're" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                applicationsHTML = applicationsHTML + reElement;
+            }
+            applications.innerHTML = applicationsHTML;
+
+            
+            let materialTypes = document.getElementById("materialType");
+            let materialTypesHTML = '';
+            for(let x of response.data['message'][1])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delpr' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let prElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "'class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let prElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pr" + x + "'/> \n  <label id = 'pr+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pr" + x+ "'>" + x + "</label> \n";
+                materialTypesHTML = materialTypesHTML + prElement;
+            }
+            materialTypes.innerHTML = materialTypesHTML;
+
+
+
+            let designs = document.getElementById("designs");
+            let designsHTML = '';
+            for(let x of response.data['message'][3])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delde' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let deElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "'class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let deElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked   autocomplete = 'off' id = 'de" + x + "'/> \n  <label id = 'de+" + x + "' class = ' checkbox btn btn-primary labels' for = 'de" + x+ "'>" + x + "</label> \n";
+                designsHTML = designsHTML + deElement;
+            }
+            designs.innerHTML = designsHTML;
+
+
+
+            let services = document.getElementById("services");
+            let servicesHTML = '';
+            for(let x of response.data['message'][4])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delse' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let seElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "'class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let seElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'se" + x + "'/> \n  <label id = 'se+" + x + "' class = ' checkbox btn btn-primary labels' for = 'se" + x+ "'>" + x + "</label> \n";
+                servicesHTML = servicesHTML + seElement;
+            }
+            services.innerHTML = servicesHTML;
+
+            
+
+            let productType = document.getElementById("productType");
+            let productTypeHTML = '';
+            for(let x of response.data['message'][2])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let delButton = '<div style = "postion: absolute;" class = "delButtonContainer"><button id="delpl' + x+ '" class = " delButton"><span class = "delButtonLabel2">-</span></button></div>'
+                let plElement  = "<div style = 'display: flex; position: relative;' > <input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "'class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x +"</label>"+ delButton+"</div>\n ";
+                // let plElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'pl" + x + "'/> \n  <label id = 'pl+" + x + "' class = ' checkbox btn btn-primary labels' for = 'pl" + x+ "'>" + x + "</label> \n";
+                productTypeHTML = productTypeHTML + plElement;
+            }
+            productType.innerHTML = productTypeHTML;
+
+
+
+
+            let companies = document.getElementById("companies");
+            let companiesHTML = '';
+            for(let x of response.data['message'][6])
+            {  
+                let price = this.state.price;
+                price[x] = 1;
+                this.setState({price: price});
+                let coElement  = "<input style='opacity:0; position:absolute; left:0px;'  type = 'checkbox' value ='" + x + "' className = 'checkbox ' checked  autocomplete = 'off' id = 'co" + x + "'/> \n  <label id = 'co+" + x + "' class = ' checkbox btn btn-primary labels' for = 'co" + x+ "'>" + x + "</label> \n";
+                companiesHTML = companiesHTML + coElement;
+            }
+            companies.innerHTML = companiesHTML;
+            companies.style.display = 'none';
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
 
             // let extras = document.getElementById("extras");
@@ -836,6 +1149,7 @@ export default class Form extends Component{
             // this.setState({price: d});
             // console.log("this is price " ,this.state.price, typeof(this.state.price));
             
+<<<<<<< HEAD
 
             let drag_cont = document.querySelectorAll('.drag_container');
             let that = this;
@@ -1041,6 +1355,12 @@ export default class Form extends Component{
 
             
             let checkboxes = document.querySelectorAll('.checkbox');
+=======
+            let checkboxes = document.querySelectorAll('.checkbox');
+            let that = this;
+            // console.log(this);
+            // console.log(that);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
             for( let checkboxx of checkboxes)
             {
                 // console.log(checkboxx.value)
@@ -1048,6 +1368,7 @@ export default class Form extends Component{
                     if(this.nodeName == 'INPUT')
                         return;
                     
+<<<<<<< HEAD
                     let cId = String(this.id)
                     let pId = String(this.id).substring(0,2)
                     let pCb = document.getElementById(pId);
@@ -1090,6 +1411,78 @@ export default class Form extends Component{
                         }
 
                         that.setState({price: price})
+=======
+                    // console.log(this.id);
+                    let cId = String(this.id)
+                    
+                    let pId = String(this.id).substring(0,2)
+                    console.log("Cid = " + cId)
+                    console.log("pId = " + pId);
+                    let pCb = document.getElementById(pId);
+                    console.log(pCb)
+                    console.log(pCb.checked)
+                    // console.log(cId + " " + pId);
+
+                    if(this.checked == true )
+                    {   
+                        // this.checked = false;
+                        if(cId.length == 3)
+                        {
+                            this.checked = false;
+                            this.style.backgroundColor = 'skyblue';
+                            this.style.color = 'black';
+                            this.style.boxShadow = 'rgb(170, 170, 170) -2px 2px 0px';
+                        }
+                        else
+                        {
+                            this.style.backgroundColor = 'white';
+                            this.style.color = 'black';
+                            this.style.boxShadow = 'rgb(170, 170, 170) -5px 5px 0px';
+                            this.checked = false;
+                            let s = String(this.innerHTML);
+                            // d[s] = 1;
+                            let price = that.state.price;
+                            price[s] = 1
+
+                            that.setState({price: price})
+                        }
+                        
+
+                        
+
+
+                    }
+                    else
+                    {
+                        if(cId.length == 3)
+                        {
+                            this.checked = true
+                            this.style.backgroundColor = 'black';
+                            this.style.color = 'white';
+                        }
+                        else
+                        {    
+                            this.style.backgroundColor = 'black';
+                            this.style.color = 'white';
+                            this.style.boxShadow = '0px 0px 0px';
+                            this.checked = true;
+                            let s = String(this.innerHTML);
+
+                            let price = that.state.price;
+                            
+                            if(pCb.checked == false)
+                                price[s] = 2;
+                            else
+                                price[s] = 3;
+                            that.setState({price:price})
+
+                            
+                            that.setState({price: price})
+                        }
+
+                        // console.log("you unchecked the checkbox");
+
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                     }
 
                     console.log(that.state.price);
@@ -1107,6 +1500,7 @@ export default class Form extends Component{
                     let x = String(this.id).substring(5,delId.length)
                     let pId = delId.substring(3,5);
                     let price = that.state.price;
+<<<<<<< HEAD
                     let lab = document.getElementById(pId + '+' + x)
 
                     if(price[x] == 0)
@@ -1144,12 +1538,32 @@ export default class Form extends Component{
 
 
                     // this.style.display = 'none';
+=======
+                    
+                    price[x] = 4
+
+                    that.setState({price: price})
+
+                    console.log(that.state.price)
+                    console.log(delId);
+                    console.log(x)
+                    let l = document.getElementById(pId+'+' + x).checked = true;
+                    document.getElementById(pId+'+' + x).style.display = 'none';
+                    document.getElementById(pId+ '+' + x).style.margin = '0px';
+
+                    document.getElementById(pId + '' + x).style.display = 'none';
+                    document.getElementById(pId + '' + x).style.margin = '0px';
+
+
+                    this.style.display = 'none';
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
                 })
             }
 
 
             document.getElementById("post-form").style.display = 'block'
+<<<<<<< HEAD
             document.getElementById("usp-form").style.display = 'none'
             // setResults(response.data); 
         }).catch((e) =>{
@@ -1164,6 +1578,11 @@ export default class Form extends Component{
             err.firstChild.innerHTML = 'Too many requests. Retry in 30 seconds'
             err.style.gridTemplateRows = '1fr'
         }
+=======
+
+            // setResults(response.data); 
+        });
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         // if(this.state.id === '_add'){
         //     ProductService.createProduct(product).then(response =>{
         //         this.props.history.push('/products');
@@ -1241,7 +1660,11 @@ export default class Form extends Component{
         return (<h1 className="text-center" 
         style={{
             fontFamily: 'Google Sans,Roboto,Arial,sans-serif'
+<<<<<<< HEAD
         }} ></h1>);
+=======
+        }} >Attom</h1>);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
     }
 
 
@@ -1249,15 +1672,22 @@ export default class Form extends Component{
         const {loading} = this.state;
         const {online} = this.state;
         const {offline} = this.state;
+<<<<<<< HEAD
         const {transactional} = this.state;
         const {educational} = this.state;
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
         return(
             <div>
             <div style={{
                 margin: '0px',
                 padding: '0px',
                 minWidth: '600px',
+<<<<<<< HEAD
                 // maxWidth: '800px',
+=======
+                maxWidth: '800px',
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                 transition: ' all-linear 1s'
             }}>
                 <div id = "first-form" style={{
@@ -1275,8 +1705,12 @@ export default class Form extends Component{
                         
                     }}>
                             <div className = "row" style={{
+<<<<<<< HEAD
                                 // justifyContent: 'center'23
                                 
+=======
+                                // justifyContent: 'center'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                 borderRadius: '14px'
                             }
                             }>
@@ -1285,7 +1719,11 @@ export default class Form extends Component{
                                     borderColor: 'lightgray',
                                     minHeight: '350px',
                                     // height: '0px',
+<<<<<<< HEAD
                                     maxHeight: '600px', 
+=======
+                                    maxHeight: '600px',
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                     display: 'flex',
                                     boxShadow: '-8px 8px 0px #aaa'
                                     
@@ -1324,6 +1762,11 @@ export default class Form extends Component{
                                                     type = 'radio' value ='OfflineElement'   className = 'checkbox'   autoComplete = 'off' id = 'OfflineElement' onChange={e =>{
                                                         this.setState({offline: true})
                                                         this.setState({online: false})
+<<<<<<< HEAD
+=======
+                                                        console.log(this.state.offline)
+                                                        console.log(this.state.online)
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     }} /> 
                                                     <label style= {{boxShadow: '0px 0px 0px', marginLeft: '4px'}}className = 'checkbox btn btn-primary labels' htmlFor = 'OfflineElement' >Offline</label>
                                                     </div>
@@ -1333,6 +1776,11 @@ export default class Form extends Component{
                                                     type = 'radio' value ='OnlineElement'   className = 'checkbox'  autoComplete = 'off' id = 'OnlineElement' onChange={e =>{
                                                         this.setState({offline: false})
                                                         this.setState({online: true})
+<<<<<<< HEAD
+=======
+                                                        console.log(this.state.offline)
+                                                        console.log(this.state.online)
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
                                                     }} /> 
                                                     <label style= {{boxShadow: '0px 0px 0px', marginLeft: '4px'}} className = 'checkbox btn btn-primary labels' htmlFor = 'OnlineElement' >Online</label>
@@ -1350,6 +1798,7 @@ export default class Form extends Component{
                                                     </div>
                                                 </div>
                                                 
+<<<<<<< HEAD
 
 
 
@@ -1404,6 +1853,8 @@ export default class Form extends Component{
                                                 
 
 
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                         
 
                                             
@@ -1520,7 +1971,11 @@ export default class Form extends Component{
                                     boxShadow: '-8px 8px 0px #aaa'
                                     
                                 }}>
+<<<<<<< HEAD
                                     {/* <h2 style={{marginTop: '5px'}}>Product Details</h2> */}
+=======
+                                    <h2 style={{marginTop: '5px'}}>Product Details</h2>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                     <div className = "card-body" style={{
                                         // boxShadow: '0px 0px 8px #ddd'
                                     }}>
@@ -1537,12 +1992,21 @@ export default class Form extends Component{
                                                 }}>
                                                 <label style={{
                                                     // marginRight: '70px'
+<<<<<<< HEAD
                                                 }}>Landing page URL:  </label>
                                                 </div>
                                                 <input autoComplete="off"  name="landingPage" className="form-control" 
                                                     value={this.state.landingPage} onChange={this.changeLandingPageHandler}/>
                                             </div>
                                             {/* <div className = "form-group" style={{
+=======
+                                                }}>Enter Landing Page:  </label>
+                                                </div>
+                                                <input autoComplete="off" placeholder="Enter Landing Page" name="landingPage" className="form-control" 
+                                                    value={this.state.landingPage} onChange={this.changeLandingPageHandler}/>
+                                            </div>
+                                            <div className = "form-group" style={{
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 marginBottom: '2.0rem'
                                             }}>
                                                 <div style={{
@@ -1555,9 +2019,14 @@ export default class Form extends Component{
                                                 </div>
                                                 <input autoComplete="off" placeholder="Enter words separated by ','" name="name" className="form-control" 
                                                     value={this.state.name} onChange={this.changeNameHandler}/>
+<<<<<<< HEAD
                                             </div> */}
                                             
                                             {/* <div className = "form-group" style={{
+=======
+                                            </div>
+                                            <div className = "form-group" style={{
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 marginBottom: '2.0rem'
                                             }}>
                                                 <div style={{
@@ -1567,6 +2036,7 @@ export default class Form extends Component{
                                                 <label style={{
                                                     // marginRight: '53%'
                                                 }}>Enter product category:</label>
+<<<<<<< HEAD
                                                 </div> */}
                                                 {/* <input autoComplete="off" placeholder="tiles/gifts" name="category" className="form-control" 
                                                     value={this.state.category} onChange={this.changeCategoryHandler}/> */}
@@ -1575,12 +2045,29 @@ export default class Form extends Component{
                                                     justifyContent: 'left'
                                                 }}> */}
                                                 {/* <DropdownButton id="dropdown-basic-button" title= 'Select category' drop ={'down-centered'}>
+=======
+                                                </div>
+                                                {/* <input autoComplete="off" placeholder="tiles/gifts" name="category" className="form-control" 
+                                                    value={this.state.category} onChange={this.changeCategoryHandler}/> */}
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                <DropdownButton id="dropdown-basic-button" title= 'Select category' drop ={'down-centered'}>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     <Dropdown.Item onClick={(e)=>{
                                                         e.preventDefault();
                                                         this.state.category = 'tiles';
                                                         let b = document.getElementById("dropdown-basic-button");
+<<<<<<< HEAD
                                                         b.title = this.state.category
                                                         b.innerHTML = "Tiles"
+=======
+                                                        console.log(b)
+                                                        b.title = this.state.category
+                                                        b.innerHTML = "Tiles"
+                                                        console.log(this.state.category);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     }} href="#/action-1"><button className = "category-input" style={{
                                                         border: 'none' ,
                                                         background: 'none',
@@ -1590,14 +2077,25 @@ export default class Form extends Component{
                                                         e.preventDefault();
                                                         this.state.category = 'tiles';
                                                         let b = document.getElementById("dropdown-basic-button");
+<<<<<<< HEAD
                                                         b.title = this.state.category
                                                         b.innerHTML = "Tiles"
+=======
+                                                        console.log(b)
+                                                        b.title = this.state.category
+                                                        b.innerHTML = "Tiles"
+                                                        console.log(this.state.category);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     }} 
                                                     >Tiles</button></Dropdown.Item>
                                                 </DropdownButton>
                                                 </div>
                                                 
+<<<<<<< HEAD
                                             </div> */}
+=======
+                                            </div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             <div className = "form-group" style={{
                                                 marginBottom: '2.0rem'
                                             }}>
@@ -1609,13 +2107,18 @@ export default class Form extends Component{
                                                     // marginRight: '53%'
                                                 }}>Enter starting price:</label>
                                                 </div>
+<<<<<<< HEAD
                                                 <input autoComplete="off"  name="startingPrice" className="form-control" 
+=======
+                                                <input autoComplete="off" placeholder="Enter keywords separated by ','" name="startingPrice" className="form-control" 
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     value={this.state.startingPrice} onChange={this.changeStartingPriceHandler}/>
                                                 
                                             </div>
                                             <div className = "form-group" style={{
                                                 marginBottom: '2.0rem'
                                             }}>
+<<<<<<< HEAD
                                                 <div id = 'keywords-box' style={{
                                                     textAlign: "left"
                                                 }}>
@@ -1933,6 +2436,20 @@ export default class Form extends Component{
                                                 
                                                 <div id = 'error' style={{color: 'red',
                                                     textAlign:'left'}}><label></label></div>
+=======
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                <label style={{
+                                                    // marginRight: '53%'
+                                                }}>Enter keywords related to your product:</label>
+                                                </div>
+                                                <input autoComplete="off" placeholder="Enter keywords separated by ','" name="productKeywords" className="form-control" 
+                                                    value={this.state.productKeywords} onChange={this.changeProductKeywordsHandler}/>
+                                                
+                                            </div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             
                                             <div style={{
                                                 display: 'flex',
@@ -2041,10 +2558,17 @@ export default class Form extends Component{
                                                     // marginRight: '70px'
                                                 }}>Product USP:</label>
                                                 </div>
+<<<<<<< HEAD
                                                 <input id= "productUsp" autoComplete="off" placeholder="Enter product benefits/solutions" name="Product USP" className="form-control" 
                                                     value={this.state.productUsp} onChange={this.changeProductUspHandler}/>
                                             </div>
                                             {/* <div className = "form-group" style={{
+=======
+                                                <input autoComplete="off" placeholder="Enter product benefits/solutions" name="Product USP" className="form-control" 
+                                                    value={this.state.productUsp} onChange={this.changeProductUspHandler}/>
+                                            </div>
+                                            <div className = "form-group" style={{
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 marginBottom: '2.0rem'
                                             }}>
                                                 <div style={{
@@ -2057,7 +2581,11 @@ export default class Form extends Component{
                                                 </div>
                                                 <input autoComplete="off" placeholder="Enter words separated by '," name="identifierWords" className="form-control" 
                                                     value={this.state.identifierWords} onChange={this.changeIdentifierWordHandler}/>
+<<<<<<< HEAD
                                             </div> */}
+=======
+                                            </div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             <div className = "form-group" style={{
                                                 marginBottom: '2.0rem',
                                                 justifyContent: 'left'
@@ -2067,6 +2595,7 @@ export default class Form extends Component{
                                                     justifyContent: 'left'
                                                 }}>
                                                 <label style={{
+<<<<<<< HEAD
                                                 }}>Enter keywords related to product USP</label>
                                                 </div>
                                                 <div style={{
@@ -2376,6 +2905,16 @@ export default class Form extends Component{
                                                 color: 'red',
                                                 textAlign: 'left'
                                             }}><label></label></div>
+=======
+                                                    // marginRight: '53%'
+                                                }}>Enter keywords related to product USP</label>
+                                                </div>
+                                                <input autoComplete="off" placeholder="Enter keywords separated by ','" name="uspKeywords" className="form-control" 
+                                                    value={this.state.uspKeyWords} onChange={this.changeUspKeywordsHandler}/>
+                                                
+                                            </div>
+                                            
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             
                                             
                                             
@@ -2384,18 +2923,27 @@ export default class Form extends Component{
 
                                             
                                             
+<<<<<<< HEAD
                                             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+=======
+                                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             <button className="btn" id="previous-button2" style={{
                                                 backgroundColor: 'white',
                                                 padding: '0px 0px',
                                                 borderRadius: '12px', 
                                                 color: 'black',
                                                 // borderColor: 'black',
+<<<<<<< HEAD
                                                 // marginTop: '50px'
+=======
+                                                marginTop: '50px'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             }} onClick={(e)=>{
                                                 e.preventDefault();
                                                 document.getElementById("second-form").style.display = 'block';
                                                 document.getElementById("usp-form").style.display = 'none';
+<<<<<<< HEAD
                                                 let temp = this.state.price
                                                 temp  = {}
                                                 this.setState({price: temp})
@@ -2404,13 +2952,19 @@ export default class Form extends Component{
                                                 parse.innerHTML = "<div></div>"
                                                 parse.style.gridTemplateRows = '0fr';
                                                 this.setState({uspKeyWords: ''})
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
                                             }}
                                             disabled = {loading}>
                                                 {loading && <FaCircleNotch className="App-logo" style={{
                                                     marginLeft: '22px', 
+<<<<<<< HEAD
                                                     marginRight: '22px',
                                                     // marginTop: '0px'
+=======
+                                                    marginRight: '22px'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 }}></FaCircleNotch>}
                                                 {!loading && <span>{"< "}Previous</span>}
                                                 </button>
@@ -2421,6 +2975,7 @@ export default class Form extends Component{
                                                 borderRadius: '12px', 
                                                 color: 'white',
                                                 border: 'none',
+<<<<<<< HEAD
                                                 // marginTop: '50px'
                                             }} onClick={(e) =>{
                                                 if(this.state.uspKeyWords == '' && this.state.productUsp == '')
@@ -2428,6 +2983,24 @@ export default class Form extends Component{
                                                 this.setState({addAnotherUsp: true})
                                                 this.saveOrUpdateProduct(e)
                                                 this.setState({addAnotherUsp: false});
+=======
+                                                marginTop: '50px'
+                                            }} onClick={(e) =>{
+                                                e.preventDefault();
+                                                let au = this.state.allUsp;
+                                                let temp = {};
+                                                temp['usp'] = this.state.productUsp;
+                                                temp['identifierWords'] = this.state.identifierWords;
+                                                temp['uspKeyWords'] = this.state.uspKeyWords;
+                                                au[this.state.uspId] = temp;
+                                                this.state.uspId++;
+                                                this.setState({productUsp: ''});
+                                                this.setState({identifierWords: ''});
+                                                this.setState({uspKeyWords: ''});
+                                                this.setState({allUsp: au});
+
+                                                console.log(this.state.allUsp);
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
                                             }}
                                             disabled = {loading}>
@@ -2446,7 +3019,11 @@ export default class Form extends Component{
                                                 borderRadius: '12px', 
                                                 color: 'white',
                                                 border: 'none',
+<<<<<<< HEAD
                                                 // marginTop: '50px'
+=======
+                                                marginTop: '50px'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             }} onClick={this.saveOrUpdateProduct}
                                             disabled = {loading}>
                                                 {loading && <FaCircleNotch className="App-logo" style={{
@@ -2538,6 +3115,7 @@ export default class Form extends Component{
                                                     display: 'felx', 
                                                     justifyContent: 'space-between'
                                                 }}> */}
+<<<<<<< HEAD
                                                 {/* <div style={{
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
@@ -2578,6 +3156,8 @@ export default class Form extends Component{
                                                 
 
                                                 
+=======
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <div style={{
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
@@ -2585,6 +3165,7 @@ export default class Form extends Component{
                                                     marginBottom: '10px'
                                                 }}>
                                                 <label style={{
+<<<<<<< HEAD
                                                 }} >Select Ad-group themes and mark negative keywords: </label>
                                                 {/* <div style={{
                                                     textAlign: 'left'
@@ -2593,15 +3174,64 @@ export default class Form extends Component{
                                                     display:'none'
                                                 }}>
                                                
+=======
+                                                    marginRight: '10px'
+                                                }} >Select the related products that you offer: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <input style={{
                                                     
 
 
                                                 }}  
+<<<<<<< HEAD
                                                 type = 'checkbox' value ='re' className = 'checkbox ' defaultChecked   autoComplete = 'off' id = 're'/>   <label id= 're+' className = ' checkbox ' htmlFor = 're'>Make AdGroup</label>  */}
                                                 {/* </div> */}
                                                 {/* <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='remakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'remakeNwordList'></input><label>Mark unchecked as negative keywords</label></div> */}
                                                 {/* </div> */}
+=======
+                                                type = 'checkbox' value ='pl' className = 'checkbox '    autoComplete = 'off' id = 'pl'/>   <label id= 'pl+' className = ' checkbox ' htmlFor = 'pl'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='plmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'plmakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
+                                                </div>
+                                                {/* </div> */}
+                                                <div id="productType" style={{
+                                                    display: 'flex',
+                                                    marginBottom: '40px',
+                                                    flexWrap: 'wrap',
+                                                    gap: '12px',
+                                                    justifyContent: 'left'
+                                                }}>
+                                                </div>
+
+
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    alignItems: 'center',
+                                                    marginBottom: '10px'
+                                                }}>
+                                                <label style={{
+                                                    marginRight: '10px'
+                                                }} >Your product is relevent for: </label>
+                                                <div style={{
+                                                    textAlign: 'left'
+                                                }}>
+                                                <div>
+                                                <input style={{
+                                                    
+
+
+                                                }}  
+                                                type = 'checkbox' value ='re' className = 'checkbox '    autoComplete = 'off' id = 're'/>   <label id= 're+' className = ' checkbox ' htmlFor = 're'>Make AdGroup</label> 
+                                                </div>
+                                                <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='remakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'remakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
+                                                </div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 </div>
 
                                                 <div id="applications" style={{
@@ -2609,8 +3239,12 @@ export default class Form extends Component{
                                                     marginBottom: '40px',
                                                     flexWrap: 'wrap',
                                                     gap: '12px',
+<<<<<<< HEAD
                                                     justifyContent: 'left', 
                                                     textAlign: 'left'
+=======
+                                                    justifyContent: 'left'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 }}>
                                                 </div>
 
@@ -2618,7 +3252,11 @@ export default class Form extends Component{
                                                 
 
 
+<<<<<<< HEAD
                                                 {/* <div style={{
+=======
+                                                <div style={{
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
                                                     alignItems: 'center',
@@ -2630,16 +3268,24 @@ export default class Form extends Component{
                                                 <div style={{
                                                     textAlign: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 <div style = {{
                                                     display:'none'
                                                 }}>
                                                
+=======
+                                                <div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <input style={{
                                                     
 
 
                                                 }}  
+<<<<<<< HEAD
                                                 type = 'checkbox' value ='pr' className = 'checkbox '   defaultChecked autoComplete = 'off' id = 'pr'/>   <label id= 'pr+' className = ' checkbox ' htmlFor = 'pr'>Make AdGroup</label> 
+=======
+                                                type = 'checkbox' value ='pr' className = 'checkbox '    autoComplete = 'off' id = 'pr'/>   <label id= 'pr+' className = ' checkbox ' htmlFor = 'pr'>Make AdGroup</label> 
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 </div>
                                                 <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='prmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'prmakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
                                                 </div>
@@ -2665,16 +3311,24 @@ export default class Form extends Component{
                                                 <div style={{
                                                     textAlign: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 <div style = {{
                                                     display:'none'
                                                 }}>
                                                
+=======
+                                                <div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <input style={{
                                                     
 
 
                                                 }}  
+<<<<<<< HEAD
                                                 type = 'checkbox' value ='de' className = 'checkbox '   defaultChecked    autoComplete = 'off' id = 'de'/>   <label id= 'de+' className = ' checkbox ' htmlFor = 'de'>Make AdGroup</label> 
+=======
+                                                type = 'checkbox' value ='de' className = 'checkbox '    autoComplete = 'off' id = 'de'/>   <label id= 'de+' className = ' checkbox ' htmlFor = 'de'>Make AdGroup</label> 
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 </div>
                                                 <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='demakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'demakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
                                                 </div>
@@ -2686,9 +3340,15 @@ export default class Form extends Component{
                                                     gap: '12px',
                                                     justifyContent: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 </div> */}
 
 {/* 
+=======
+                                                </div>
+
+
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <div style={{
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
@@ -2701,16 +3361,24 @@ export default class Form extends Component{
                                                 <div style={{
                                                     textAlign: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 <div style = {{
                                                     display:'none'
                                                 }}>
                                                
+=======
+                                                <div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 <input style={{
                                                     
 
 
                                                 }}  
+<<<<<<< HEAD
                                                 type = 'checkbox' value ='se' className = 'checkbox '    defaultChecked   autoComplete = 'off' id = 'se'/>   <label id= 'se+' className = ' checkbox ' htmlFor = 'se'>Make AdGroup</label> 
+=======
+                                                type = 'checkbox' value ='se' className = 'checkbox '    autoComplete = 'off' id = 'se'/>   <label id= 'se+' className = ' checkbox ' htmlFor = 'se'>Make AdGroup</label> 
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 </div>
                                                 <div><input style={{marginRight: '4px'}} type = 'checkbox' value ='plmakeNwordList'  autoComplete = 'off' placeholder="make nwrods" id = 'semakeNwordList'></input><label>Mark unchecked as negative keywords</label></div>
                                                 </div>
@@ -2722,6 +3390,7 @@ export default class Form extends Component{
                                                     gap: '12px',
                                                     justifyContent: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 </div> */}
 
                                                 {/* <div style={{
@@ -2797,6 +3466,16 @@ export default class Form extends Component{
 
                                                 {/* <div style={{
                                                     display: 'flex',
+=======
+                                                </div>
+
+
+                                                
+
+
+                                                <div style={{
+                                                    display: 'flex',
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                     justifyContent: 'left'
 
                                                 }}>
@@ -2811,7 +3490,11 @@ export default class Form extends Component{
                                                     gap: '12px',
                                                     justifyContent: 'left'
                                                 }}>
+<<<<<<< HEAD
                                                 </div> */}
+=======
+                                                </div>
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
 
 
 
@@ -2832,6 +3515,7 @@ export default class Form extends Component{
                                                 
                                             </div>
                                             
+<<<<<<< HEAD
                                             <div style={{
                                                 display: 'grid',
                                                 gridTemplateRows: '0fr',
@@ -2839,6 +3523,9 @@ export default class Form extends Component{
                                             }}>
                                                 <div id = "error3"></div>
                                             </div>
+=======
+    
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                             <button className="btn" id="filter-button" style={{
                                                 backgroundColor: 'black',
                                                 padding: '14px 30px',
@@ -2911,7 +3598,11 @@ export default class Form extends Component{
                                                 <div style={{
                                                     display: 'flex',
                                                     justifyContent: 'left',
+<<<<<<< HEAD
                                                     width: '800px'
+=======
+                                                    width: '400px'
+>>>>>>> f3c57e9cf3f2cb5cb64acb1d36b9d26a36a08197
                                                 }} id = "results_keywords"></div>
 
                                                 <div className="result-box" id="negative-keywrods" style={{
