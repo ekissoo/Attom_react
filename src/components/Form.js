@@ -10,7 +10,8 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.23:5000/";
-const REST_API_URL="http://localhost:8080";
+const REST_API_URL="http://192.168.1.39:8080";
+// const REST_API_URL="http://localhost:8080";
 // const REST_API_URL="https://ec2-34-208-122-172.us-west-2.compute.amazonaws.com:8080";
 
 // const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
@@ -527,7 +528,7 @@ export default class Form extends Component{
         document.getElementById("parse2").innerHTML = '<div></div>'
         document.getElementById("parse2").style.gridTemplateRows = '0fr'
         document.getElementById("error2").innerHTML = '<label></label>'
-        document.getElementById("error2").style.gridTemplateRows = '0fr'
+        // document.getElementById("error2").style.gridTemplateRows = '0fr'
         document.getElementById("uspKeywords").style.borderColor = '1px solid #ced4da'
 
         
@@ -1154,6 +1155,7 @@ export default class Form extends Component{
             // setResults(response.data); 
         }).catch((e) =>{
             let err = document.getElementById("error2");
+            this.setState({loading: false})
             err.firstChild.innerHTML = "Too many requests. Retry in 30 seconds."
             err.style.gridTemplateRows = '1fr';
             console.log("network error");
@@ -1922,7 +1924,10 @@ export default class Form extends Component{
    
                                                     }}
                                                     disabled = {loading}>
-                                                        
+                                                        {loading && <FaCircleNotch className="App-logo" style={{
+                                                            marginLeft: '22px', 
+                                                            marginRight: '22px'
+                                                        }}></FaCircleNotch>}
                                                         {!loading && <span style={{color: 'white'}}>{">>"}</span>}
                                                     </button>
                                                     </div>
@@ -2362,10 +2367,6 @@ export default class Form extends Component{
                                                         this.setState({loading: false})
 
                                                     }} disabled = {loading}>
-                                                        {loading && <FaCircleNotch className="App-logo" style={{
-                                                            marginLeft: '22px', 
-                                                            marginRight: '22px'
-                                                        }}></FaCircleNotch>}
                                                         {!loading && <span style={{color: 'white'}}>{">>"}</span>}
                                                 </button>
                                                 </div>
