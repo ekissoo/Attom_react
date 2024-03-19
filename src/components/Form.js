@@ -11,12 +11,12 @@ import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.23:5000/";
 // const REST_API_URL="http://192.168.1.39:8080";
-// const REST_API_URL="http://localhost:8080";
+const REST_API_URL="http://localhost:8080";
 // const REST_API_URL="https://localhost:8080";
 
 // const REST_API_URL="http://ec2-35-89-18-154.us-west-2.compute.amazonaws.com:8080";
 // const REST_API_URL="https://23c9-35-89-18-154.ngrok-free-app";
-const REST_API_URL="https://tender-moons-guess.loca.lt";
+// const REST_API_URL="https://tender-moons-guess.loca.lt";
 
 // const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
 
