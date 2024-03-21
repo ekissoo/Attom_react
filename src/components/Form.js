@@ -11,9 +11,11 @@ import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.23:5000/";
 // const REST_API_URL="http://192.168.1.39:8080";
-// const REST_API_URL="http://localhost:8080";
+const REST_API_URL="http://localhost:80";
 // const REST_API_URL="httpjs://localhost:8080";
-const REST_API_URL="https://attomlb-1156830380.us-west-2.elb.amazonaws.com:8080";
+// const REST_API_URL="https://attomlb-1156830380.us-west-2.elb.amazonaws.com:8080";
+// const REST_API_URL="https://attomlb-1156830380.us-west-2.elb.amazonaws.com:8080";
+
 // const REST_API_URL="http://adtom.ai:8080"
 // const REST_API_URL="http://ec2-35-89-18-154.us-west-2.compute.amazonaws.com:8080";
 // const REST_API_URL="https://23c9-35-89-18-154.ngrok-free-app";
