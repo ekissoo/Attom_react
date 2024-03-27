@@ -12,7 +12,7 @@ import pluralize, { plural } from "pluralize";
 // const REST_API_URL="http://192.168.1.39:5000/";
 // const REST_API_URL="http://192.168.1.39:8080";
 // const REST_API_URL="http://localhost:8080";
-const REST_API_URL="https://adtom.in:8080";
+const REST_API_URL="https://adtom.in";
 // const REST_API_URL="http://adtomservertest-1180903220.us-west-2.elb.amazonaws.com:8080/";
 
 // const REST_API_URL="http://adtom.ai:8080"
