@@ -13,16 +13,6 @@ import pluralize, { plural } from "pluralize";
 // const REST_API_URL="http://192.168.1.39:8080";
 // const REST_API_URL="http://localhost:8080";
 const REST_API_URL="https://adtom.in";
-// const REST_API_URL="http://adtomservertest-1180903220.us-west-2.elb.amazonaws.com:8080/";
-
-// const REST_API_URL="http://adtom.ai:8080"
-// const REST_API_URL="http://ec2-35-89-18-154.us-west-2.compute.amazonaws.com:8080";
-// const REST_API_URL="https://23c9-35-89-18-154.ngrok-free-app";
-
-// const REST_API_URL="https://tender-moons-guess.loca.lt";
-
-// const REST_API_URL="https://d69qhe0538.execute-api.ap-south-1.amazonaws.com/";
-
 
 
 
@@ -172,7 +162,7 @@ export default class Form extends Component{
         let product = {name: this.state.name, call: false,  brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage,transactional:this.state.transactional, educational:this.state.educational, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords, all_must_haves: this.state.all_must_haves,all_generated_keywords: this.state.all_generated_keywords,location_ids: this.state.location_ids ,all_must_haves: this.state.all_must_haves,all_nGrams: this.state.all_nGrams};
-            
+        console.log('product => ' + JSON.stringify(product));
         
         
         this.createProduct(product).then((response)=>{
@@ -563,8 +553,6 @@ export default class Form extends Component{
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage,transactional:this.state.transactional, educational:this.state.educational, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
         console.log('product => ' + JSON.stringify(product));
-            
-       
 
         try{this.createProduct(product).then((response)=>{
             // return;
