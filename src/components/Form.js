@@ -10,7 +10,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.39:5000/";
-// const REST_API_URL="http://192.168.1.39:8080";
+// const REST_API_URL="http://192.168.1.43:8080";
 // const REST_API_URL="http://localhost:8080";
 const REST_API_URL="https://adtom.in";
 
@@ -51,7 +51,10 @@ export default class Form extends Component{
             all_nGrams: [],
             all_must_haves: [],
             location_ids:[],
-            addAnotherUsp: false
+            addAnotherUsp: false,
+            neg_keywords: {}, 
+            ad_group: [],
+            neg_word_inp: ''
         }
 
         this.saveOrUpdateProduct=this.saveOrUpdateProduct.bind(this);
@@ -68,6 +71,7 @@ export default class Form extends Component{
         this.changeBrandHandler=this.changeBrandHandler.bind(this);
         this.changeMadeinHandler=this.changeMadeinHandler.bind(this);
         this.changePriceHandler=this.changePriceHandler.bind(this);
+        this.changeNegWordHandler=this.changeNegWordHandler.bind(this);
  
     }
 
@@ -111,13 +115,14 @@ export default class Form extends Component{
         return resp;
     }
 
+
+
      
 
 
-    filter = (p) =>{
-        
+    filter = (e) =>{
         this.setState({loading: true});
-        p.preventDefault();
+        e.preventDefault();
         
         let checkboxes = document.querySelectorAll('.checkbox');
         let that = this;
@@ -159,7 +164,7 @@ export default class Form extends Component{
         // console.log(this.state.price)
 
 
-        let product = {name: this.state.name, call: false,  brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
+        let product = {name: this.state.name, call: 2,  brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage,transactional:this.state.transactional, educational:this.state.educational, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords, all_must_haves: this.state.all_must_haves,all_generated_keywords: this.state.all_generated_keywords,location_ids: this.state.location_ids ,all_must_haves: this.state.all_must_haves,all_nGrams: this.state.all_nGrams};
         console.log('product => ' + JSON.stringify(product));
@@ -198,11 +203,7 @@ export default class Form extends Component{
                 console.log("type of x")
                 for(let [key, value] of Object.entries(x))
                 {
-                    // console.log("key = "+ key + "\nvalue = " + value)
-                    // console.log("key = "+ typeof(key) + "\nvalue = " + typeof(value))
-                    
-
-                    ele = "<div class = 'result-box'>";
+                    ele = "<div id = '" + key+ "' class = 'result-box'>";
                     results_keywordsHTML = results_keywordsHTML + ele;
                     let k = 0;
                     if(key[0] != ['['])
@@ -210,18 +211,48 @@ export default class Form extends Component{
                         ele = "<h6> Ad-Group for " + key + ":</h6>"
                         results_keywordsHTML = results_keywordsHTML + ele;
                     }
-                    for(let keyword of value)
-                    {
-                        if(k == value.length -1)
-                            ele = '<label>' + keyword +"."+ '</label>';
-                        else
-                            ele = '<label>' + keyword+ ",&nbsp" + '</label>'
-                        results_keywordsHTML = results_keywordsHTML + ele;
-                        k++;
-                    }
-                    ele = "</div>"
+                    ele = "<div style = 'display: flex; justify-content: space-between; gap: 20px'> <div><label>Keyword<label></div>        <div><label>Volume<label></div>    </div>";
                     results_keywordsHTML = results_keywordsHTML + ele;
 
+                    
+                    for(let keyword of value)
+                    {
+
+                        let lis  = keyword.split(" (");
+                        let text = keyword
+                        console.log("lis = ", lis);
+                        keyword = lis[0];
+
+                        
+                        if(lis.length == 2){
+                            let volume = lis[1].substring(0,lis[1].length -1)
+                            console.log(keyword, volume, "keyword and volume")
+                            ele = "<div id = '" + text+ "' style = 'display: flex; justify-content: space-between;'>   <div class='keyword-entry'><label>" + keyword+ "</label></div>    <div class='volume-entry' ><label>" + volume+ "</label></div>    <div><button class= 'x-entry' id = '" + text+ "button'>X</button></div>   </div><div></div>" 
+                            results_keywordsHTML = results_keywordsHTML + ele;
+                        }
+                        else {
+                            let header = keyword.split(": ")[0]
+                            let val = keyword.split(": ")[1]
+                            console.log("header and val = " , header, val)
+                            if(header == 'Max CPC')
+                            {
+                                ele = '<div class = "metrics_val" style = "display: flex; align-items: center;"><h6 class= "metrics">'+header+': </h6> <input type = "number" style = "width: 50px; text-align: center; border: none" id = "'+key+'_max_cpc" value = "'+val+'"></div>' ;
+                            }
+                            else{
+                                if(k == value.length -1)
+                                    ele = '<h6 class= "metrics">' + keyword +"."+ '</h6>';
+                                else
+                                    ele = '<h6 class = "metrics">' + keyword+ '</h6>'
+                                
+                            }
+                            results_keywordsHTML = results_keywordsHTML + ele;
+                            k++;
+                        }
+                    }
+                    ele = "<button class = 'refresh-button' id = '" + key + " refresh_button' >Refresh</button>"
+                    results_keywordsHTML = results_keywordsHTML + ele;
+                    ele = "</div>"
+                    results_keywordsHTML = results_keywordsHTML + ele;
                 }
                 ele = "</div>"
                 results_keywordsHTML = results_keywordsHTML + ele;
@@ -229,46 +260,31 @@ export default class Form extends Component{
             }
             results_keywords.innerHTML = results_keywordsHTML;
 
-
-            // let filteredUspKeywords = document.getElementById("usp-keywords");
-            // let filteredUspKeywordsHTML = '';
-            // for(let i = 0;i< this.state.uspId;i++)
-            // {
-            //     console.log("here")
-                
-            //     let ele = "<div style = 'text-align: left;'><h6>Preferred keywords for " + this.state.allUsp[i]['usp'] + ":</h6>"
-            //     filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
-            //     for(let x of response.data['message'][10][1+i])
-            //     {   
-            //         // let price = this.state.price;
-            //         // price[x] = 1;
-            //         // this.setState({price: price});
-            //         let reElement  = "<div><label>" + x + "</label></div>";
-            //         filteredUspKeywordsHTML = filteredUspKeywordsHTML + reElement;
-            //     }
-            //     ele = "</div>"
-            //     filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
-
-
-            // }
-
-            // filteredUspKeywords.innerHTML = filteredUspKeywordsHTML;
-            let filteredUspKeywordsHTML = ''
-            let negKeywords = document.getElementById("negative-keywrods");
+            let negKeywords = document.getElementById("negative-keywords");
             let l = document.getElementById("makeNwordList")
             // console.log('checked =' + l.checked)
             if(l.checked)
             {
                 let negKeywordsHTML = '';
-                let ele = "<div style = 'text-align: left;'><h6>Negative Keywords:</h6>"
+                let ele = "<div id = 'neg_words_list' style = 'text-align: left;'><h6>Negative Keywords:</h6>"
                 negKeywordsHTML = negKeywordsHTML + ele;
-                for(let x of response.data['message']['neg_words'])
+                for(let word of response.data['message']['neg_words'])
                 {
-                    let reElement  = "<div><label>" + x + "</label></div>";
+                    let reElement  = "<div style = 'display:flex;justify-content: space-between'><label>" + word + "</label> <button class = 'neg_word_x'>X</button></div>";
                     negKeywordsHTML = negKeywordsHTML + reElement; 
                 }
+                
+                
                 ele = "</div>"
-                filteredUspKeywordsHTML = filteredUspKeywordsHTML + ele;
+                negKeywordsHTML = negKeywordsHTML + ele;
+                ele = "<div style = 'display: flex; align-items: center'><input style = 'height: 24px;' id='neg_word_input' autoComplete='off' placeholder='Enter' name='neg_word' className='form-control'>"
+                negKeywordsHTML = negKeywordsHTML + ele;
+                ele = "<button id = 'add_negative_keyword_button' style = 'margin-top: 0px;border: none; background-color: #ff7644; border-radius: 0px 5px 5px 0px;width: 145px; height: 24px; width: 29px; padding: 0px; outline: none'>>></button></div>"
+                negKeywordsHTML = negKeywordsHTML + ele;
+                ele = "<div><button id = 'recalculate-button' style = ' margin-top: 5px; margin-botton: -10px;border: none;color: white; background-color: black; border-radius: 3px; outline: none'>Re-calculate</button></div>"
+                negKeywordsHTML = negKeywordsHTML + ele;
+                
+                
                 negKeywords.innerHTML = negKeywordsHTML;
                 negKeywords.style.display = 'block'
             }
@@ -277,6 +293,213 @@ export default class Form extends Component{
             // console.log(response.data)
             this.setState({loading: false});
             document.getElementById("results").style.display = 'block';
+            document.getElementById("negative-keywords").style.display = 'block';
+            
+            let neg_word_input = document.getElementById("neg_word_input")
+            neg_word_input.value = that.state.neg_word_inp
+            console.log("neg_word_input.value = ", neg_word_input.value)
+            neg_word_input.addEventListener('change', function(e){
+                e.preventDefault();
+
+                that.changeNegWordHandler(e);
+            })
+
+            document.getElementById("recalculate-button").addEventListener('click', function(e){
+                e.preventDefault();
+                this.disabled = true
+                this.innerHTML = "loading..."
+                that.filter(e);
+                this.disabled = false;
+            })
+
+            let neg_word_x_buttons = document.querySelectorAll(".neg_word_x");
+            for(let neg_word_x of neg_word_x_buttons)
+            {
+                neg_word_x.addEventListener('click', function(e){
+                    e.preventDefault();
+                    console.log("here")
+                    let word = this.parentElement.firstChild.innerHTML
+                    let p = that.state.price;
+                    p[word] = 1;
+                    that.setState({price: p})
+                    this.parentElement.style.display = 'none';
+
+                })
+            }
+            
+            neg_word_input.addEventListener('keyup', function(e){
+
+                e.preventDefault();
+                if(e.key === "Enter")
+                {
+                    if(that.state.neg_word_inp != '')
+                    {
+                        let temp = that.state.price;
+                        if(that.state.neg_word_inp in temp && temp[that.state.neg_word_inp] < 0)
+                        {
+                            that.setState({neg_word_inp: ''})
+                        }
+                        else if(that.state.neg_word_inp in temp && temp[that.state.neg_word_inp] > 0)
+                        {
+                            let inp = document.getElementById("neg_word_input")
+                            inp.style.borderColor = 'red';
+                            that.setState({neg_word_inp: ''})
+                            inp.placeholder = 'Word contains ad-group theme'
+                        }
+                        else{
+                            temp[that.state.neg_word_inp] = -1
+                            document.getElementById("neg_words_list").innerHTML = document.getElementById("neg_words_list").innerHTML +  "<div style = 'display:flex;justify-content: space-between'><label>" + that.state.neg_word_inp + "</label> <button class = 'neg_word_x'>X</button></div>";
+                            that.setState({neg_word_inp: ''})
+                        }
+                        let inp = document.getElementById("neg_word_input")
+                        inp.style.borderColor = 'black';
+                    }
+                    else{
+                        let inp = document.getElementById("neg_word_input")
+                        inp.style.borderColor = 'red';
+                        inp.placeholder = 'Enter a word'
+                    }
+                    console.log(that.state.price)
+                }
+            })
+
+
+
+            let add_neg_word_button = document.getElementById("add_negative_keyword_button");
+            add_neg_word_button.addEventListener('click', function(e){
+                e.preventDefault();
+                if(that.state.neg_word_inp != '')
+                {
+                    let temp = that.state.price;
+                    if(that.state.neg_word_inp in temp && temp[that.state.neg_word_inp] > 0)
+                    {
+                        that.setState({neg_word_inp: ''})
+                    }
+                    else{
+                        temp[that.state.neg_word_inp] = -1
+                        document.getElementById("neg_words_list").innerHTML = document.getElementById("neg_words_list").innerHTML +  "<div display= 'flex' style = 'justify-content: space-between'><label>" + that.state.neg_word_inp + "</label> <button class = 'neg_word_x'>X</button></div>";
+                        that.setState({neg_word_inp: ''})
+                    }
+                    let inp = document.getElementById("neg_word_input")
+                    inp.style.borderColor = 'black';
+                }
+                else{
+                    let inp = document.getElementById("neg_word_input")
+                    inp.style.borderColor = 'red';
+                    inp.placeholder = 'Enter a word'
+                }
+            })
+
+
+            let x_buttons = document.querySelectorAll('.x-entry');
+            console.log("here", x_buttons)
+
+            for(let x_button of x_buttons)
+            {
+                console.log(x_button)
+                x_button.addEventListener('click', function(e){
+                    e.preventDefault();
+                    let keyword = this.id.substring(0, this.id.length-6)
+                    keyword = keyword.split(" (")[0]
+                    console.log(keyword)
+                    let temp = that.state.neg_keywords;
+                    if(this.style.color != 'red')
+                    {
+                        temp[keyword] = -1;
+                        this.style.color = 'red';
+                        
+                    }
+                    else
+                    {
+                        temp[keyword] = 1;
+                        this.style.color = 'black';
+
+                    }
+                    that.setState({neg_keywords: temp})
+                    console.log(that.state.neg_keywords);
+                });
+            }
+
+            let refresh_buttons = document.querySelectorAll('.refresh-button')
+            console.log("here", refresh_buttons)
+            for(let refresh_button of refresh_buttons)
+            {
+                console.log(refresh_button)
+                refresh_button.addEventListener('click', function(e){
+                    this.innerHTML = 'loading...'
+                    e.preventDefault();
+                    let boxId = this.id.substring(0,this.id.length - 15)
+                    console.log(document.getElementById(boxId));
+                    let res_box = document.getElementById(boxId);
+
+                    console.log("resbox = ",res_box)
+                    let keywords = []
+                    for (let child of res_box.childNodes)
+                    {
+                        if(child.id && child.id.includes('refresh_button') == false)
+                        {
+                            let temp = that.state.neg_keywords;
+                            let key = child.id.split(" (")[0];
+
+                            if(key in temp && temp[key] < 0)
+                                continue;
+                            keywords.push(key)
+                        }
+                    }
+                    console.log("keywords = ", keywords);
+
+                    if(keywords.length == 0)
+                        return
+                    let max_cpc = document.getElementById(boxId+"_max_cpc")
+                    max_cpc = max_cpc.value
+                    console.log("max_cpc = ", max_cpc)
+                    let product = {max_cpc: max_cpc, name: that.state.name, call: 3, brand: that.state.brand,madein:that.state.madein, price: that.state.price, uspId: that.state.uspId, allUsp: that.state.allUsp, formData: that.state.formData,
+                    offline: that.state.offline, online: that.state.online, locality: that.state.locality, targetAudienceLocation: that.state.targetAudienceLocation, targetArea: that.state.targetArea, 
+                    landingPage: that.state.landingPage,transactional:that.state.transactional, educational:that.state.educational, category: that.state.category, startingPrice: that.state.startingPrice, productKeywords: that.state.productKeywords, ad_group: keywords};
+                    console.log('product => ' + JSON.stringify(product));
+
+
+                    let that_one = this;
+
+                    that.createProduct(product).then((response)=>{
+                        console.log(response)
+                        let metrics = response.data.message.forecast_metrics;
+                        console.log("metrics = ", metrics)
+                        console.log("resbox = ", res_box.childNodes)
+                        let i = 0;
+                        for (let child of res_box.childNodes)
+                        {
+                            if(child.id && child.id.includes('refresh_button') == false)
+                            {
+                                let temp = that.state.neg_keywords;
+                                let key = child.id.split(" (")[0];
+
+                                if(key in temp && temp[key] < 0)
+                                    child.outerHTML = '';
+                            }
+                            else if(child.className == 'metrics')
+                            {
+                                console.log(child)
+                                child.innerHTML = metrics[i];
+                                i++;
+                            } 
+                            else if(child.className == 'metrics_val')
+                            {
+                                let header = metrics[i].split(": ")[0]
+                                let val = metrics[i].split(": ")[1]
+
+                                child.childNodes[2].value = val;
+                                i++;
+                            }  
+                        }
+                        that_one.innerHTML = 'Refresh'
+                    })
+
+                   
+                })
+            }
+
+
             
         }).catch((e) =>{
             this.setState({loading: false})
@@ -287,7 +510,6 @@ export default class Form extends Component{
         });
 
         
-
         
     }
 
@@ -549,7 +771,7 @@ export default class Form extends Component{
         if(this.state.addAnotherUsp == true)
             return;
 
-        let product = {name: this.state.name, call: true, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
+        let product = {name: this.state.name, call: 1, brand: this.state.brand,madein:this.state.madein, price: this.state.price, uspId: this.state.uspId, allUsp: this.state.allUsp, formData: this.state.formData,
         offline: this.state.offline, online: this.state.online, locality: this.state.locality, targetAudienceLocation: this.state.targetAudienceLocation, targetArea: this.state.targetArea, 
         landingPage: this.state.landingPage,transactional:this.state.transactional, educational:this.state.educational, category: this.state.category, startingPrice: this.state.startingPrice, productKeywords: this.state.productKeywords};
         console.log('product => ' + JSON.stringify(product));
@@ -1213,6 +1435,10 @@ export default class Form extends Component{
     changeTargetAreaHandler = (event) =>
     {
         this.setState({targetArea: event.target.value})
+    }
+    changeNegWordHandler = (event)=>{
+        console.log('here')
+        this.setState({neg_word_inp: event.target.value})
     }
     changeBrandHandler= (event) => {
         this.setState({brand: event.target.value});
@@ -2860,130 +3086,138 @@ export default class Form extends Component{
                     
                 </div>
 
-
-                <div style={{
-                    transition: '1s',
-                    display: 'none',
-                    textAlign: 'left'
-                    // minWidth: '800px'
-                }} id = "results">
-                    <br></br>
-                    <div className = "container"  style={{
-                        // minWidth: '500px',
-                        
-                        // minHeight: '600px',
-                        
-                        wordWrap: 'break-word',
-                        // marginTop: '100 px'
-                        
-                    }}>
-                            <div className = "row" style={{
-                                // justifyContent: 'center'
-                                borderRadius: '14px'
-                            }
-                            }>
-                                <div className = "card col" style={{
-                                    borderRadius: '14px',
-                                    borderColor: 'lightgray',
-                                    minHeight: '500px',
-                                    display: 'flex',
-                                    boxShadow: '-8px 8px 0px #aaa'
-                                    
-                                }}>
-                                    <div className = "card-body" style={{
-                                        // boxShadow: '0px 0px 8px #ddd'
+                <div style={{display: 'flex', position: 'relative'}}>
+                    <div style={{
+                        transition: '1s',
+                        display: 'none',
+                        textAlign: 'left'
+                        // minWidth: '800px'
+                        }} id = "results">
+                        <br></br>
+                        <div className = "container"  style={{
+                            // minWidth: '500px',
+                            
+                            // minHeight: '600px',
+                            
+                            wordWrap: 'break-word',
+                            // marginTop: '100 px'
+                            
+                        }}>
+                                <div className = "row" style={{
+                                    // justifyContent: 'center'
+                                    borderRadius: '14px'
+                                }
+                                }>
+                                    <div className = "card col" style={{
+                                        borderRadius: '14px',
+                                        borderColor: 'lightgray',
+                                        minHeight: '500px',
+                                        display: 'flex',
+                                        boxShadow: '-8px 8px 0px #aaa'
+                                        
                                     }}>
-                                        <form style={{
-                                            marginTop:'2.0rem', 
-                                            // boxShadow: '0px 0px 8px #000'
+                                        <div className = "card-body" style={{
+                                            // boxShadow: '0px 0px 8px #ddd'
                                         }}>
-                                            <div className = "form-group" style={{
-                                                marginBottom: '3.0rem'
+                                            <form style={{
+                                                marginTop:'2.0rem', 
+                                                // boxShadow: '0px 0px 8px #000'
                                             }}>
-                                                <div style={{
-                                                    display: 'flex',
-                                                    justifyContent: "left"
+                                                <div className = "form-group" style={{
+                                                    marginBottom: '3.0rem'
                                                 }}>
-                                                <div style={{
-                                                    display: 'flex',
-                                                    justifyContent: 'left',
-                                                    width: '800px'
-                                                }} id = "results_keywords"></div>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: "left",
+                                                        position: 'relative'
+                                                    }}>
+                                                    <div style={{
+                                                        display: 'flex',
+                                                        justifyContent: 'left',
+                                                        width: '800px'
+                                                    }} id = "results_keywords"></div>
 
-                                                <div className="result-box" id="negative-keywrods" style={{
-                                                    display: 'flex',
-                                                    marginBottom: '40px',
-                                                    marginLeft: '5px',
-                                                    flexWrap: 'wrap',
-                                                    gap: '12px',
-                                                    justifyContent: 'left'
-                                                }}>
+                                                    
+                                                </div>
+                                                    
+
+
+                                                    
+
+
+
+                                                    {/* <label style={{
+                                                        marginRight: '12%'
+                                                    }} >Select keywords if they are relevent to your product: </label>
+                                                    <div id="extras" style={{
+                                                        display: 'flex',
+                                                        marginBottom: '40px',
+                                                        flexWrap: 'wrap',
+                                                        gap: '12px',
+                                                        justifyContent: 'left'
+                                                    }}>
+                                                    </div> */}
+
+
+
+                                                    
+                                                </div>
                                                 
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between'
+                                                }}>
+
+
+                                                    <button className="btn" id="previous-button3" style={{
+                                                    backgroundColor: 'white',
+                                                    padding: '0px',
+                                                    border: 'balck',
+                                                    borderRadius: '12px', 
+                                                    color: 'black',
+                                                    border: 'none',
+                                                    // marginTop: '50px'
+                                                }} onClick={(e)=>{
+                                                    e.preventDefault();
+                                                    document.getElementById("results").style.display = 'none';
+                                                    document.getElementById("negative-keywords").style.display = 'none';
+                                                    document.getElementById("post-form").style.display = 'block';
+
+                                                }}
+                                                disabled = {loading}>
+                                                    {loading && <FaCircleNotch className="App-logo" style={{
+                                                        marginLeft: '22px', 
+                                                        marginRight: '22px'
+                                                    }}></FaCircleNotch>}
+                                                    {!loading && <span>{"< "}Previous</span>}
+                                                    </button>
 
                                                 </div>
-                                            </div>
-                                                
-
-
-                                                
-
-
-
-                                                {/* <label style={{
-                                                    marginRight: '12%'
-                                                }} >Select keywords if they are relevent to your product: </label>
-                                                <div id="extras" style={{
-                                                    display: 'flex',
-                                                    marginBottom: '40px',
-                                                    flexWrap: 'wrap',
-                                                    gap: '12px',
-                                                    justifyContent: 'left'
-                                                }}>
-                                                </div> */}
-
-
-
-                                                
-                                            </div>
-                                            
-                                            <div style={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between'
-                                            }}>
-
-
-                                                <button className="btn" id="previous-button3" style={{
-                                                backgroundColor: 'white',
-                                                padding: '0px',
-                                                border: 'balck',
-                                                borderRadius: '12px', 
-                                                color: 'black',
-                                                border: 'none',
-                                                // marginTop: '50px'
-                                            }} onClick={(e)=>{
-                                                e.preventDefault();
-                                                document.getElementById("results").style.display = 'none';
-                                                document.getElementById("post-form").style.display = 'block';
-
-                                            }}
-                                            disabled = {loading}>
-                                                {loading && <FaCircleNotch className="App-logo" style={{
-                                                    marginLeft: '22px', 
-                                                    marginRight: '22px'
-                                                }}></FaCircleNotch>}
-                                                {!loading && <span>{"< "}Previous</span>}
-                                                </button>
-
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-    
+        
+                        </div>
+                        
                     </div>
+
+                    <div className="result-box" id="negative-keywords" style={{
+                        display: 'flex',
+                        display: 'none',
+                        marginBottom: '40px',
+                        marginLeft: '5px',
+                        flexWrap: 'wrap',
+                        gap: '12px',
+                        justifyContent: 'left',
+                        marginTop: '24px',
+
+                        background: 'white'
+                    }}>
                     
-                </div>
- 
+
+                    </div>
+                </div>                                
 
 
 

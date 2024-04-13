@@ -98,14 +98,59 @@ label
     margin: 5px auto;
     border: 1px solid lightgray;
     padding: 10px;
-    max-width: 259px;
+    max-width: 700px;
     border-radius: 14px;
     margin-left: 0px;
     margin-right: 7px;
 }
+.keyword-entry{
+    margin: 0px;
+    border: 1px solid lightgray;
+    padding: 2px 2px;
+    width: 287px;
+    border-radius: 3px;
+    margin-left: 0px;
+}
+.volume-entry{
+    margin: 0px;
+    border: 1px solid lightgray;
+    padding: 2px 2px;
+    width: 50px;
+    border-radius: 3px;
+    margin-left: 0px;
+    margin-right: 7px;
+}
+.x-entry{
+    margin: 0px;
+    border: 1px solid lightgray;
+    padding: 2px 2px;
+    width: 20px;
+    border-radius: 3px;
+    margin-left: 0px;
+    margin-right: 7px;
+    background-color: white;
+}
+.neg_word_x{
+    margin: 0px;
+    border: 1px solid lightgray;
+    padding: 2px 2px;
+    width: 20px;
+    border-radius: 3px;
+    margin-left: 0px;
+    margin-right: 7px;
+    background-color: white;    
+}
 
 .delButtonContainer{
     /* position: absolute; */
+}
+.refresh-button{
+    outline: none;
+    border: 0px;
+    width: 95px;
+    background-color: #3143ab;
+    border-radius: 5px;
+    color: white
 }
 .delButtonLabel2{
     color: lightgray;
@@ -182,4 +227,3 @@ label
       max-width: 1090px;
     }
   }
-  
