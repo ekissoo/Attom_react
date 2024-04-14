@@ -10,7 +10,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import pluralize, { plural } from "pluralize";
 
 // const REST_API_URL="http://192.168.1.39:5000/";
-// const REST_API_URL="http://192.168.1.43:8080";
+// const REST_API_URL="http://192.168.16.226:8080";
 // const REST_API_URL="http://localhost:8080";
 const REST_API_URL="https://adtom.in";
 
@@ -236,7 +236,7 @@ export default class Form extends Component{
                             console.log("header and val = " , header, val)
                             if(header == 'Max CPC')
                             {
-                                ele = '<div class = "metrics_val" style = "display: flex; align-items: center;"><h6 class= "metrics">'+header+': </h6> <input type = "number" style = "width: 50px; text-align: center; border: none" id = "'+key+'_max_cpc" value = "'+val+'"></div>' ;
+                                ele = '<div class = "metrics_val" style = "display: flex; align-items: center;"><h6 class= "metrics">'+header+': </h6> <input type = "number" style = "margin-bottom: 8px; width: 50px; text-align: center; border: none" id = "'+key+'_max_cpc" value = "'+val+'"></div>' ;
                             }
                             else{
                                 if(k == value.length -1)
@@ -277,7 +277,7 @@ export default class Form extends Component{
                 
                 ele = "</div>"
                 negKeywordsHTML = negKeywordsHTML + ele;
-                ele = "<div style = 'display: flex; align-items: center'><input style = 'height: 24px;' id='neg_word_input' autoComplete='off' placeholder='Enter' name='neg_word' className='form-control'>"
+                ele = "<div style = 'display: flex; align-items: center'><input style = 'width: 145px; height: 24px;' id='neg_word_input' autoComplete='off' placeholder='Enter' name='neg_word' className='form-control'>"
                 negKeywordsHTML = negKeywordsHTML + ele;
                 ele = "<button id = 'add_negative_keyword_button' style = 'margin-top: 0px;border: none; background-color: #ff7644; border-radius: 0px 5px 5px 0px;width: 145px; height: 24px; width: 29px; padding: 0px; outline: none'>>></button></div>"
                 negKeywordsHTML = negKeywordsHTML + ele;
@@ -320,7 +320,7 @@ export default class Form extends Component{
                     console.log("here")
                     let word = this.parentElement.firstChild.innerHTML
                     let p = that.state.price;
-                    p[word] = 1;
+                    p[word] = 0;
                     that.setState({price: p})
                     this.parentElement.style.display = 'none';
 
@@ -361,6 +361,20 @@ export default class Form extends Component{
                     }
                     console.log(that.state.price)
                 }
+                let neg_word_x_buttons = document.querySelectorAll(".neg_word_x");
+                for(let neg_word_x of neg_word_x_buttons)
+                {
+                    neg_word_x.addEventListener('click', function(e){
+                        e.preventDefault();
+                        console.log("here")
+                        let word = this.parentElement.firstChild.innerHTML
+                        let p = that.state.price;
+                        p[word] = 0;
+                        that.setState({price: p})
+                        this.parentElement.style.display = 'none';
+
+                    })
+                }
             })
 
 
@@ -387,6 +401,20 @@ export default class Form extends Component{
                     let inp = document.getElementById("neg_word_input")
                     inp.style.borderColor = 'red';
                     inp.placeholder = 'Enter a word'
+                }
+                let neg_word_x_buttons = document.querySelectorAll(".neg_word_x");
+                for(let neg_word_x of neg_word_x_buttons)
+                {
+                    neg_word_x.addEventListener('click', function(e){
+                        e.preventDefault();
+                        console.log("here")
+                        let word = this.parentElement.firstChild.innerHTML
+                        let p = that.state.price;
+                        p[word] = 0;
+                        that.setState({price: p})
+                        this.parentElement.style.display = 'none';
+
+                    })
                 }
             })
 

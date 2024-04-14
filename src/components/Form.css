@@ -127,8 +127,11 @@ label
     width: 20px;
     border-radius: 3px;
     margin-left: 0px;
-    margin-right: 7px;
+    margin-right: 0px;
     background-color: white;
+}
+.x-entry:focus{
+    outline: none;   
 }
 .neg_word_x{
     margin: 0px;
@@ -137,9 +140,13 @@ label
     width: 20px;
     border-radius: 3px;
     margin-left: 0px;
-    margin-right: 7px;
+    margin-right: 0px;
     background-color: white;    
 }
+.neg_word_x:focus{
+    outline: none;   
+}
+
 
 .delButtonContainer{
     /* position: absolute; */
